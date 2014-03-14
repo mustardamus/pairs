@@ -206,7 +206,6 @@ module.exports = Remote = (function() {
       });
       return false;
     });
-    this.onPaired();
   }
 
   Remote.prototype.connectToServer = function() {
