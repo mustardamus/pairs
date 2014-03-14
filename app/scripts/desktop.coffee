@@ -95,3 +95,5 @@ module.exports = class Desktop
     $('#right-wrapper').animate
       top: "-#{$('#phone-wrapper').offset().top - 10}px" # these days i like it nasty
     , 'fast'
+
+    $('#subscribe-wide').fadeOut('slow')

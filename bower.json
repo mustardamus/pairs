@@ -1,11 +1,11 @@
 {
-  "name": "trabant",
+  "name": "pairs",
   "version": "0.0.0",
   "homepage": "",
   "authors": [
     "Sebastian Senf <contact@mustardamus.com>"
   ],
-  "main": "trabant.js",
+  "main": "app/scripts/main.coffee",
   "license": "Private",
   "private": true,
   "ignore": [
@@ -21,8 +21,6 @@
     "socket.io-client": "~0.9.16",
     "gibberish-aes": "*",
     "qrGenerator": "https://github.com/davidshimjs/qrcodejs.git",
-    "qrScanner": "https://github.com/LazarSoft/jsqrcode.git",
-    "camCanvasSwf": "http://www.webqr.com/camcanvas.swf",
     "supersized": "*",
     "normalize-css": "~3.0.0",
     "font-awesome": "~4.0.3"

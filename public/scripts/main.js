@@ -106,9 +106,10 @@ module.exports = Desktop = (function() {
 
   Desktop.prototype.onPaired = function() {
     $('.logo').addClass('paired');
-    return $('#right-wrapper').animate({
+    $('#right-wrapper').animate({
       top: "-" + ($('#phone-wrapper').offset().top - 10) + "px"
     }, 'fast');
+    return $('#subscribe-wide').fadeOut('slow');
   };
 
   return Desktop;
@@ -205,6 +206,7 @@ module.exports = Remote = (function() {
       });
       return false;
     });
+    this.onPaired();
   }
 
   Remote.prototype.connectToServer = function() {

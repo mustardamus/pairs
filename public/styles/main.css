@@ -215,10 +215,10 @@ body.isPaired #visual-code {
 body.isPaired #buttons {
   display: block;
 }
-body.isPaired #subscribe-demo {
+body.isPaired .subscribe {
   display: block;
 }
-#subscribe-demo {
+.subscribe {
   display: none;
 }
 #buttons {
@@ -239,6 +239,7 @@ body.isPaired #subscribe-demo {
   padding: 6px 0;
   background: #ca4441;
   text-shadow: 2px 2px 0 rgba(255,255,255,0.1);
+  cursor: pointer;
 }
 .subscribe input[type="text"] {
   width: 100%;
@@ -266,4 +267,22 @@ body.isPaired #subscribe-demo {
   bottom: 0;
   right: 0;
   background: rgba(0,0,0,0.9);
+}
+#subscribe-wide {
+  width: 100%;
+  margin: 300px 0 0 50px;
+  max-width: 500px;
+  display: block;
+}
+#subscribe-wide label {
+  padding: 7px 0 7px 20px;
+  width: 100%;
+  font-size: 1.4em;
+}
+#subscribe-wide input[type="text"] {
+  text-align: left;
+  padding-left: 20px;
+}
+#subscribe-wide input[type="submit"] {
+  width: 250px;
 }

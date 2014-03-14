@@ -39,7 +39,7 @@ module.exports = class Remote
 
       false
 
-    #@onPaired()
+    @onPaired()
 
   connectToServer: ->
     @socket.io.emit 'remote:connect',
