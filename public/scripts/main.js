@@ -9,6 +9,9 @@ module.exports = Desktop = (function() {
     this.socket = new Socket;
     this.encryption = new Encryption;
     this.rootUrl = 'http://192.168.0.11:9000';
+    if (location.hostname === 'pairs.io') {
+      this.rootUrl = 'http://pairs.io';
+    }
     this.connectionKey = this.initKey('connectionCode');
     this.encryptionKey = this.initKey('encryptionKey');
     this.visualKey = '';
@@ -258,6 +261,9 @@ module.exports = Socket = (function() {
   Socket.prototype.socketUrl = 'http://192.168.0.11:12222';
 
   function Socket() {
+    if (location.hostname === 'pairs.io') {
+      this.socketUrl = 'http://pairs.io:12222';
+    }
     this.io = io.connect(this.socketUrl);
   }
 

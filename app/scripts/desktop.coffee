@@ -7,6 +7,10 @@ module.exports = class Desktop
     @encryption = new Encryption
 
     @rootUrl       = 'http://192.168.0.11:9000'
+
+    if location.hostname is 'pairs.io'
+      @rootUrl = 'http://pairs.io'
+
     @connectionKey = @initKey('connectionCode')
     @encryptionKey = @initKey('encryptionKey')
     @visualKey     = ''
