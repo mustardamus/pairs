@@ -3,7 +3,7 @@
 body
   font-family: 'Belgrano', serif
   cursor: default
-  //overflow: hidden
+  overflow: hidden // will be removed by js
 
 #wrapper
   .column
@@ -470,3 +470,16 @@ body.isPaired
 
     &:hover
       text-decoration: underline
+
+#loading
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  text-align: center
+
+  .gauge
+    margin: 0 auto
+    margin-top: 25%
+    background: #CA4441 !important

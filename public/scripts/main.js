@@ -72,7 +72,9 @@ module.exports = Desktop = (function() {
       return liEl.addClass('open');
     });
     $('<img src="images/remotes_bg_min.png">').on('load', function() {
-      return overlayEl.fadeOut(1200);
+      overlayEl.fadeOut(1200);
+      $('body').css('overflow', 'auto');
+      return $('#loading').fadeOut(800);
     });
     $('#haeh').on('click', function() {
       $('#credits').fadeIn('fast');

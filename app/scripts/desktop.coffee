@@ -63,6 +63,8 @@ module.exports = class Desktop
 
     $('<img src="images/remotes_bg_min.png">').on 'load', ->
       overlayEl.fadeOut 1200
+      $('body').css 'overflow', 'auto'
+      $('#loading').fadeOut 800
 
     $('#haeh').on 'click', ->
       $('#credits').fadeIn 'fast'
@@ -81,6 +83,7 @@ module.exports = class Desktop
     @connectToServer()
 
     #@onPaired()
+
 
   initKey: (keyName) ->
     key = localStorage.getItem(keyName)
