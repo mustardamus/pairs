@@ -60,7 +60,8 @@ module.exports = class Remote
     good = false
 
     try
-      decData = @encryption.decryptAes(@encHashData, key)
+      base64 = Base64.decode(@encHashData)
+      decData = @encryption.decryptAes(base64, key)
       obj = JSON.parse(decData)
       
       @connectionKey = obj.ck

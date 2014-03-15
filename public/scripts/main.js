@@ -113,16 +113,16 @@ module.exports = Desktop = (function() {
   };
 
   Desktop.prototype.generateQrCode = function() {
-    var data, enc, json;
+    var base64, data, enc, json;
     json = JSON.stringify({
       ck: this.connectionKey,
       ek: this.encryptionKey
     });
     enc = this.encryption.encryptAes(json, this.visualKey);
-    data = "" + this.rootUrl + "/remote.html#" + enc;
+    base64 = Base64.encode(enc);
+    data = "" + this.rootUrl + "/remote.html#" + base64;
     this.qrCode.clear();
-    this.qrCode.makeCode(data);
-    return $('#qr-code').attr('title', '');
+    return this.qrCode.makeCode(data);
   };
 
   Desktop.prototype.onPaired = function() {
@@ -255,10 +255,11 @@ module.exports = Remote = (function() {
   };
 
   Remote.prototype.encodeAndConnect = function(key) {
-    var decData, e, good, obj;
+    var base64, decData, e, good, obj;
     good = false;
     try {
-      decData = this.encryption.decryptAes(this.encHashData, key);
+      base64 = Base64.decode(this.encHashData);
+      decData = this.encryption.decryptAes(base64, key);
       obj = JSON.parse(decData);
       this.connectionKey = obj.ck;
       this.encryptionKey = obj.ek;

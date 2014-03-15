@@ -102,11 +102,12 @@ module.exports = class Desktop
   generateQrCode: ->
     json = JSON.stringify({ ck: @connectionKey, ek: @encryptionKey })
     enc  = @encryption.encryptAes(json, @visualKey)
-    data = "#{@rootUrl}/remote.html##{enc}"
+    base64 = Base64.encode(enc)
+    data = "#{@rootUrl}/remote.html##{base64}"
     
     @qrCode.clear()
     @qrCode.makeCode data
-    $('#qr-code').attr 'title', ''
+    #$('#qr-code').attr 'title', ''
 
   onPaired: ->
     $('.logo').addClass 'paired'
