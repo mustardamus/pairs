@@ -84,7 +84,6 @@ module.exports = class Desktop
 
     #@onPaired()
 
-
   initKey: (keyName) ->
     key = localStorage.getItem(keyName)
 
@@ -124,6 +123,6 @@ module.exports = class Desktop
       top: "-#{top}px" # these days i like it nasty
     , 'fast'
 
-    $('#subscribe-wide').fadeOut('slow')
+    $('#subscribe-wide').children().fadeOut('slow')
 
     $('#steps h4 span').addClass 'paired'

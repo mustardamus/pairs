@@ -276,10 +276,13 @@ body.isPaired .subscribe {
 }
 #subscribe-wide {
   width: 100%;
-  margin: 40px 0 0 50px;
+  margin: 30px 0 0 50px;
   max-width: 500px;
   display: block;
   position: relative;
+  min-height: 62px;
+  position: relative;
+  z-index: 400;
 }
 #subscribe-wide input[type="submit"] {
   width: 105px;
@@ -478,4 +481,21 @@ body.isPaired .subscribe {
   margin: 0 auto;
   margin-top: 25%;
   background: #ca4441 !important;
+}
+#social {
+  margin: 10px 0 0 164px;
+  position: relative;
+  z-index: 400;
+}
+#social a {
+  color: #eee;
+  text-decoration: none;
+  margin-right: 20px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.8);
+}
+#social a:hover {
+  color: #fff;
+}
+#social a:hover i {
+  color: #ca4441;
 }

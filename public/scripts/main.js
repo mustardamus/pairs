@@ -138,7 +138,7 @@ module.exports = Desktop = (function() {
     $('#phone-wrapper').animate({
       top: "-" + top + "px"
     }, 'fast');
-    $('#subscribe-wide').fadeOut('slow');
+    $('#subscribe-wide').children().fadeOut('slow');
     return $('#steps h4 span').addClass('paired');
   };
 
