@@ -15,6 +15,19 @@ class SocketServer
       'remote:connect' : @remote.onConnect
       'remote:command' : @remote.onCommand
 
+    @io.enable('browser client minification')  # send minified client
+    @io.enable('browser client etag')          # apply etag caching logic based on version number
+    @io.enable('browser client gzip')          # gzip the file
+    @io.set('log level', 1)                    # reduce logging
+
+    @io.set('transports', [
+        'websocket'
+      , 'flashsocket'
+      , 'htmlfile'
+      , 'xhr-polling'
+      , 'jsonp-polling'
+    ])
+
     @io.sockets.on 'connection', (socket) =>
       for routeUrl, routeFunc of routes
         do (routeUrl, routeFunc) =>
