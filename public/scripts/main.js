@@ -49,7 +49,6 @@ module.exports = Desktop = (function() {
     })(this));
     $('#phone-wrapper').css('margin-top', $(window).height());
     overlayEl = $('#overlay');
-    overlayEl.fadeOut(1200);
     $('#button-dim').click(function() {
       var spanEl;
       spanEl = $(this).children('span');
@@ -65,6 +64,27 @@ module.exports = Desktop = (function() {
         spanEl.removeClass('dim-on');
       }
       return false;
+    });
+    $('#steps li').on('click', function() {
+      var liEl;
+      liEl = $(this);
+      $('#steps .open').removeClass('open');
+      return liEl.addClass('open');
+    });
+    $('<img src="images/remotes_bg_min.png">').on('load', function() {
+      return overlayEl.fadeOut(1200);
+    });
+    $('#haeh').on('click', function() {
+      $('#credits').fadeIn('fast');
+      return $(this).fadeOut('fast');
+    });
+    $('#credits .close').on('click', function() {
+      $(this).parent().fadeOut('fast');
+      return $('#haeh').fadeIn('fast');
+    });
+    $('#right-wrapper').css({
+      height: $(window).height(),
+      overflow: 'hidden'
     });
     this.generateVisualKey();
     this.generateQrCode();
@@ -101,15 +121,22 @@ module.exports = Desktop = (function() {
     enc = this.encryption.encryptAes(json, this.visualKey);
     data = "" + this.rootUrl + "/remote.html#" + enc;
     this.qrCode.clear();
-    return this.qrCode.makeCode(data);
+    this.qrCode.makeCode(data);
+    return $('#qr-code').attr('title', '');
   };
 
   Desktop.prototype.onPaired = function() {
+    var top;
     $('.logo').addClass('paired');
-    $('#right-wrapper').animate({
-      top: "-" + ($('#phone-wrapper').offset().top - 10) + "px"
+    top = $('#phone-wrapper').offset().top - 10;
+    $('#verification-wrapper').animate({
+      top: "-" + top + "px"
     }, 'fast');
-    return $('#subscribe-wide').fadeOut('slow');
+    $('#phone-wrapper').animate({
+      top: "-" + top + "px"
+    }, 'fast');
+    $('#subscribe-wide').fadeOut('slow');
+    return $('#steps h4 span').addClass('paired');
   };
 
   return Desktop;

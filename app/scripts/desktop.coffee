@@ -37,9 +37,8 @@ module.exports = class Desktop
       $(selector).trigger event
 
     $('#phone-wrapper').css 'margin-top', $(window).height()
-    
+
     overlayEl = $('#overlay')
-    overlayEl.fadeOut 1200
 
     $('#button-dim').click ->
       spanEl = $(@).children('span')
@@ -56,6 +55,26 @@ module.exports = class Desktop
         spanEl.removeClass 'dim-on'
       false
 
+    $('#steps li').on 'click', ->
+      liEl = $(@)
+
+      $('#steps .open').removeClass 'open'
+      liEl.addClass 'open'
+
+    $('<img src="images/remotes_bg_min.png">').on 'load', ->
+      overlayEl.fadeOut 1200
+
+    $('#haeh').on 'click', ->
+      $('#credits').fadeIn 'fast'
+      $(@).fadeOut 'fast'
+
+    $('#credits .close').on 'click', ->
+      $(@).parent().fadeOut 'fast'
+      $('#haeh').fadeIn 'fast'
+
+    $('#right-wrapper').css
+      height: $(window).height()
+      overflow: 'hidden'
 
     @generateVisualKey()
     @generateQrCode()
@@ -87,13 +106,20 @@ module.exports = class Desktop
     
     @qrCode.clear()
     @qrCode.makeCode data
-    #$('#qr-code').attr 'title', ''
+    $('#qr-code').attr 'title', ''
 
   onPaired: ->
     $('.logo').addClass 'paired'
+    top = $('#phone-wrapper').offset().top - 10
     
-    $('#right-wrapper').animate
-      top: "-#{$('#phone-wrapper').offset().top - 10}px" # these days i like it nasty
+    $('#verification-wrapper').animate
+      top: "-#{top}px" # these days i like it nasty
+    , 'fast'
+
+    $('#phone-wrapper').animate
+      top: "-#{top}px" # these days i like it nasty
     , 'fast'
 
     $('#subscribe-wide').fadeOut('slow')
+
+    $('#steps h4 span').addClass 'paired'
