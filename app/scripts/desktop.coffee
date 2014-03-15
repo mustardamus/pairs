@@ -107,7 +107,7 @@ module.exports = class Desktop
     
     @qrCode.clear()
     @qrCode.makeCode data
-    #$('#qr-code').attr 'title', ''
+    $('#qr-code').attr 'title', ''
 
   onPaired: ->
     $('.logo').addClass 'paired'

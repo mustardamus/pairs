@@ -122,7 +122,8 @@ module.exports = Desktop = (function() {
     base64 = Base64.encode(enc);
     data = "" + this.rootUrl + "/remote.html#" + base64;
     this.qrCode.clear();
-    return this.qrCode.makeCode(data);
+    this.qrCode.makeCode(data);
+    return $('#qr-code').attr('title', '');
   };
 
   Desktop.prototype.onPaired = function() {
