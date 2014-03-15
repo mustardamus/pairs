@@ -15,4 +15,6 @@ module.exports = class Desktop
     fs.writeFileSync filePath, count
     console.log 'new visit: ', count
 
-    socket.emit 'desktop:stats:visits', count
+    pairings = fs.readFileSync("#{rootDir}/statistics/pairings.txt")
+
+    socket.emit 'desktop:stats', { visits: count, pairings: +pairings }

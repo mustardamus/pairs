@@ -80,8 +80,9 @@ module.exports = class Desktop
 
     statsEl = $('#stats')
 
-    @socket.io.on 'desktop:stats:visits', (count) ->
-      $('#stats-visits', statsEl).text count
+    @socket.io.on 'desktop:stats', (stats) ->
+      $('#stats-visits', statsEl).text stats.visits
+      $('#stats-pairings', statsEl).text stats.pairings
       statsEl.fadeIn 'slow'
 
     @generateVisualKey()

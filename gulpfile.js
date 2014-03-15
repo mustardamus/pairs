@@ -71,6 +71,11 @@ gulp.task('copy-images', function() {
     .pipe(gulp.dest('./public/images/'));
 
   gulp
+    .src('./app/bower_components/supersized/core/img/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('./public/img/'));
+
+  gulp
     .src('./app/bower_components/camCanvasSwf/index.swf')
     .pipe(gulp.dest('./public/'));
 });

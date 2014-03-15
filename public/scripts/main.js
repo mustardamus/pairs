@@ -89,8 +89,9 @@ module.exports = Desktop = (function() {
       overflow: 'hidden'
     });
     statsEl = $('#stats');
-    this.socket.io.on('desktop:stats:visits', function(count) {
-      $('#stats-visits', statsEl).text(count);
+    this.socket.io.on('desktop:stats', function(stats) {
+      $('#stats-visits', statsEl).text(stats.visits);
+      $('#stats-pairings', statsEl).text(stats.pairings);
       return statsEl.fadeIn('slow');
     });
     this.generateVisualKey();
