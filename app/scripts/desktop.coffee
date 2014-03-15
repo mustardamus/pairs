@@ -80,7 +80,7 @@ module.exports = class Desktop
     @generateQrCode()
     @connectToServer()
 
-    #@onPaired()
+    @onPaired()
 
   initKey: (keyName) ->
     key = localStorage.getItem(keyName)

@@ -89,6 +89,7 @@ module.exports = Desktop = (function() {
     this.generateVisualKey();
     this.generateQrCode();
     this.connectToServer();
+    this.onPaired();
   }
 
   Desktop.prototype.initKey = function(keyName) {
