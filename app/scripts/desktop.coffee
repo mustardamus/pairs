@@ -78,6 +78,12 @@ module.exports = class Desktop
       height: $(window).height()
       overflow: 'hidden'
 
+    statsEl = $('#stats')
+
+    @socket.io.on 'desktop:stats:visits', (count) ->
+      $('#stats-visits', statsEl).text count
+      statsEl.fadeIn 'slow'
+
     @generateVisualKey()
     @generateQrCode()
     @connectToServer()

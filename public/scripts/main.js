@@ -3,7 +3,7 @@ var Desktop;
 
 module.exports = Desktop = (function() {
   function Desktop() {
-    var Encryption, Socket, overlayEl;
+    var Encryption, Socket, overlayEl, statsEl;
     Socket = require('./socket');
     Encryption = require('./encryption');
     this.socket = new Socket;
@@ -87,6 +87,11 @@ module.exports = Desktop = (function() {
     $('#right-wrapper').css({
       height: $(window).height(),
       overflow: 'hidden'
+    });
+    statsEl = $('#stats');
+    this.socket.io.on('desktop:stats:visits', function(count) {
+      $('#stats-visits', statsEl).text(count);
+      return statsEl.fadeIn('slow');
     });
     this.generateVisualKey();
     this.generateQrCode();
