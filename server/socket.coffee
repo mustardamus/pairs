@@ -34,6 +34,10 @@ class SocketServer
           socket.on routeUrl, (data) =>
             routeFunc(@, socket, data, @getPairs(data.connectionKey))
 
+    setInterval =>
+      @cleanConnections()
+    , 1000 * 60 * 30
+
   storeSocket: (socketType, connectionKey, socket) ->
     keyObj = @connections[connectionKey]
 
@@ -41,6 +45,7 @@ class SocketServer
       @connections[connectionKey] = keyObj = {}
 
     keyObj["#{socketType}Socket"] = socket
+    keyObj.lastSeen = Date.now()
 
     console.log "new #{socketType} connection:", connectionKey
 
@@ -50,5 +55,10 @@ class SocketServer
         return data
 
     false
+
+  cleanConnections: ->
+    for connectionKey, pairs of @connections
+      if Date.now() - pairs.lastSeen > 1000 * 60 * 30
+        delete @connections[connectionKey]
 
 new SocketServer
