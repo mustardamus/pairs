@@ -1,0 +1,171 @@
+<!doctype html>
+
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Pairs.io</title>
+
+    <link rel="stylesheet" href="styles/vendor.css" />
+    <link rel="stylesheet" href="styles/desktop/vendor.css" />
+    <link rel="stylesheet" href="styles/desktop/desktop.css" />
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/gauge.css" type="text/css">
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <div id="haeh"><i class="fa fa-question-circle"></i></div>
+
+      <div id="credits">
+        <i class="fa fa-times close"></i>
+
+        <p>
+          Put together by
+          <a href="https://twitter.com/mustardamus">@mustardamus</a>
+          with
+          <a href="http://nodejs.org/">Node.js</a>,
+          <a href="http://coffeescript.org/">Coffee</a>,
+          <a href="https://en.wikipedia.org/wiki/Clubmate">Mate</a>,
+          <a href="http://socket.io/">Socket.io</a>,
+          <a href="http://learnboost.github.io/stylus/">Stylus</a>,
+          <a href="http://jquery.com/">jQuery</a>,
+          <a href="http://necolas.github.io/normalize.css/">Normalize</a>,
+          <a href="http://gulpjs.com/">Gulp</a>,
+          <a href="https://github.com/mdp/gibberish-aes">Gibberish AES</a>,
+          <a href="https://github.com/davidshimjs/qrcodejs">qrcodejs</a>,
+          <a href="https://www.google.com/fonts/specimen/Belgrano">Font</a>,
+          <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>,
+          <a href="https://secure.flickr.com/photos/79818573@N04/10730490594/">Background</a>,
+          <a href="http://dribbble.com/shots/1193973-Flat-Nexus-4-Phone">Phone Mockup</a>
+        </p>
+      </div>
+
+      <div class="column left">
+        <h1 class="logo" id="bendme">
+          Pairs<span class="io">.io</span>
+          <span class="slogan">Your remote control for the web</span>
+          <span class="demo">Demo</span>
+        </h1>
+
+        <ul id="steps">
+          <li class="step1 open">
+            <div class="image-wrapper">
+              <img src="images/step1.jpg">
+            </div>
+
+            <h4><span>Step1:</span> <i class="fa fa-barcode"></i> Scan QR Code</h4>
+
+            <div class="content">
+              <p>
+                Use a QR scanner app (<a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android">Android</a>, <a href="https://itunes.apple.com/us/app/qr-scanner/id377643590?mt=8">iPhone</a>)
+                to take a snapshot of the QR code. Follow the URL and open it in your phones browser.
+              </p>
+            </div>
+          </li>
+          <li class="step2">
+            <div class="image-wrapper">
+              <img src="images/step2.jpg">
+            </div>
+
+            <h4><span>Step2:</span> <i class="fa fa-eye"></i> Enter verification code</h4>
+
+            <div class="content">
+              <p>
+                The QR code contains data to pair your phone with your dektop as well as an encryption key.
+                These keys are encrypted with the visual verification code on the desktop and
+                decrypted by the phone.
+              </p>
+            </div>
+          </li>
+          <li class="step3">
+            <div class="image-wrapper">
+              <img src="images/step3.jpg">
+            </div>
+
+            <h4><span>Step3:</span> <i class="fa fa-building-o"></i> Control this website</h4>
+
+            <div class="content">
+              <p>
+                Commands are encrypted on your phone and sent to the server. Then it get routed
+                to your desktop where the command is decrypted and executed. Try to dim the page in this demo.
+              </p>
+            </div>
+          </li>
+        </ul>
+
+        <form class="subscribe" id="subscribe-wide" action="http://mustardamus.us3.list-manage1.com/subscribe/post?u=710a7d87c46387c97aed7d19c&amp;id=87babf67eb" method="post"  target="_blank">
+          <input type="text" placeholder="via email address" name="EMAIL" id="subscribe-email">
+          
+          <div style="position: absolute; left: -5000px;"><input type="text" name="b_710a7d87c46387c97aed7d19c_87babf67eb" value=""></div>
+
+          <input type="submit" value="Subscribe">
+        </form>
+
+        <div id="social">
+          <a href="mailto:hi@pairs.io"><i class="fa fa-envelope-o"></i> Say Hi!</a>
+          <a href="https://twitter.com/pairsio"><i class="fa fa-twitter"></i> @pairsio</a>
+          <a href="https://news.ycombinator.com/item?id=7403507"><i class="fa fa-comments-o"></i> HackerNews</a>
+        </div>
+      </div>
+      <div class="column right">
+        <div id="right-wrapper">
+          <div id="verification-wrapper">
+            <div id="qr-code"></div>
+            <div id="visual-code">
+              Visual verification code (<a href="#new-visual-key">make new</a>)
+              <span>...</span>
+            </div>
+            <h2>
+              <i class="fa fa-arrow-circle-o-up"></i>
+              Try it out
+            </h2>
+          </div>
+
+          <div id="phone-wrapper">
+            <h2 class="paired">
+              Paired!
+              <i class="fa fa-arrow-circle-o-down"></i>
+            </h2>
+            <div id="phone-content">
+              <div id="phone-content-inner">
+                <h4 class="logo paired">
+                  Pairs<span class="io">.io</span>
+                  <span class="slogan">Remote control</span>
+                </h4>
+
+                <div class="buttons">
+                  <div class="btn" id="button-dim">Dim: <span class="dim-off">Off</span></div>
+                </div>
+
+                <form class="subscribe" action="http://mustardamus.us3.list-manage1.com/subscribe/post?u=710a7d87c46387c97aed7d19c&amp;id=87babf67eb" method="post"  target="_blank">
+                  <label for="subscribe-phone-email">Subscribe via e-mail</label>
+                  <input type="text" placeholder="@" name="EMAIL" id="subscribe-phone-email">
+                  
+                  <div style="position: absolute; left: -5000px;"><input type="text" name="b_710a7d87c46387c97aed7d19c_87babf67eb" value=""></div>
+
+                  <input type="submit" value="Get me the latest updates">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlay"></div>
+    <div id="loading"><div class="gauge"></div></div>
+    <div id="stats">
+      <span id="stats-visits"></span> Visits
+      -
+      <span id="stats-pairings"></span> Pairings
+    </div>
+
+    <script type="text/javascript" src="scripts/vendor.js"></script>
+    <script type="text/javascript" src="scripts/desktop/vendor.js"></script>
+    <!--<script src="http://192.168.0.11:12222/socket.io/socket.io.js"></script>-->
+    <script src="http://pairs.io:12222/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="scripts/desktop.js"></script>
+  </body>
+</html>
