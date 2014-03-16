@@ -13,6 +13,7 @@ gulp.task('stylus', function() {
   gulp
     .src('./app/styles/**/*.styl')
     .pipe(stylus())
+    .pipe(csso())
     .pipe(gulp.dest('./public/styles/'))
     .pipe(connect.reload());
 });
@@ -34,6 +35,7 @@ gulp.task('coffee', function() {
       extensions: ['.coffee']
     }))
     .pipe(concat('desktop.js'))
+    .pipe(uglify())
     .pipe(gulp.dest('./public/scripts/'))
     .pipe(connect.reload());
 
@@ -44,6 +46,7 @@ gulp.task('coffee', function() {
       extensions: ['.coffee']
     }))
     .pipe(concat('remote.js'))
+    .pipe(uglify())
     .pipe(gulp.dest('./public/scripts/'))
     .pipe(connect.reload());
 });
@@ -52,7 +55,7 @@ gulp.task('vendor-js', function() {
   gulp
     .src(['./app/scripts/*.js', './app/scripts/**/*.js'])
     .pipe(include())
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('./public/scripts/'));
 });
 
@@ -83,10 +86,6 @@ gulp.task('copy-images', function() {
     .src('./app/bower_components/supersized/core/img/*')
     .pipe(imagemin())
     .pipe(gulp.dest('./public/img/'));
-
-  gulp
-    .src('./app/bower_components/camCanvasSwf/index.swf')
-    .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('build',
