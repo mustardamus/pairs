@@ -1,7 +1,7 @@
-module.exports = class Desktop
+class Desktop
   constructor: ->
-    Socket     = require('./socket')
-    Encryption = require('./encryption')
+    Socket     = require('../socket')
+    Encryption = require('../encryption')
 
     @socket     = new Socket
     @encryption = new Encryption
@@ -133,3 +133,6 @@ module.exports = class Desktop
     $('#subscribe-wide').children().fadeOut('slow')
 
     $('#steps h4 span').addClass 'paired'
+
+jQuery ->
+  new Desktop

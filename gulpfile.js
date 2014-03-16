@@ -11,7 +11,7 @@ var imagemin   = require('gulp-imagemin');
 
 gulp.task('stylus', function() {
   gulp
-    .src('./app/styles/main.styl')
+    .src('./app/styles/**/*.styl')
     .pipe(stylus())
     .pipe(gulp.dest('./public/styles/'))
     .pipe(connect.reload());
@@ -19,7 +19,7 @@ gulp.task('stylus', function() {
 
 gulp.task('vendor-css', function() {
   gulp
-    .src('./app/styles/vendor.css')
+    .src(['./app/styles/*.css', './app/styles/**/*.css'])
     .pipe(include())
     .pipe(csso())
     .pipe(gulp.dest('./public/styles/'))
@@ -28,23 +28,32 @@ gulp.task('vendor-css', function() {
 
 gulp.task('coffee', function() {
   gulp
-    .src('./app/scripts/main.coffee', { read: false })
+    .src('./app/scripts/desktop/desktop.coffee', { read: false })
     .pipe(browserify({
       transform: ['coffeeify'],
       extensions: ['.coffee']
     }))
-    .pipe(concat('main.js'))
+    .pipe(concat('desktop.js'))
+    .pipe(gulp.dest('./public/scripts/'))
+    .pipe(connect.reload());
+
+  gulp
+    .src('./app/scripts/remote/remote.coffee', { read: false })
+    .pipe(browserify({
+      transform: ['coffeeify'],
+      extensions: ['.coffee']
+    }))
+    .pipe(concat('remote.js'))
     .pipe(gulp.dest('./public/scripts/'))
     .pipe(connect.reload());
 });
 
 gulp.task('vendor-js', function() {
   gulp
-    .src('./app/scripts/vendor.js')
+    .src(['./app/scripts/*.js', './app/scripts/**/*.js'])
     .pipe(include())
-    .pipe(uglify())
-    .pipe(gulp.dest('./public/scripts/'))
-    .pipe(connect.reload());
+    //.pipe(uglify())
+    .pipe(gulp.dest('./public/scripts/'));
 });
 
 gulp.task('copy-html', function() {
@@ -57,7 +66,7 @@ gulp.task('copy-html', function() {
 gulp.task('copy-fonts', function() {
   gulp
     .src('./app/bower_components/font-awesome/fonts/*')
-    .pipe(gulp.dest('./public/fonts/'));
+    .pipe(gulp.dest('./public/styles/fonts/'));
 
   gulp
     .src('./app/bower_components/semantic/build/uncompressed/fonts/*')
