@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "",
   "scripts": {
-    "test": "gulp test-server"
+    "test": "gulp test-server",
+    "start": "forever start -c coffee server/socket.coffee",
+    "stop": "forever stop server/socket.coffee"
   },
   "author": "Sebastian Senf",
   "license": "Private",
