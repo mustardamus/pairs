@@ -6,7 +6,7 @@ class Remote
     @socket        = new Socket
     @encryption    = new Encryption
 
-    @socket.io.on 'remote:paired', => @onPaired()
+    @socket.io.on 'paired', => @onPaired()
 
     @encHashData = location.hash.split('#').join('')
     #console.log @encHashData.length # can not be null
@@ -42,19 +42,19 @@ class Remote
     #@onPaired()
 
   connectToServer: ->
-    @socket.io.emit 'remote:connect',
-      connectionKey: @connectionKey
+    @socket.io.emit 'connect',
+      pairId: @connectionKey
 
   sendCommand: (data) ->
     command  = @encryption.encryptAes(data.command, @encryptionKey)
     event    = @encryption.encryptAes(data.event, @encryptionKey)
     selector = @encryption.encryptAes(data.selector, @encryptionKey)
     
-    @socket.io.emit 'remote:command',
+    @socket.io.emit 'message',
       command      : command
       event        : event
       selector     : selector
-      connectionKey: @connectionKey
+      pairId: @connectionKey
 
   encodeAndConnect: (key) ->
     good = false

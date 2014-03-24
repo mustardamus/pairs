@@ -6,7 +6,7 @@ class Desktop
     @socket     = new Socket
     @encryption = new Encryption
 
-    @rootUrl       = 'http://192.168.0.11:9000'
+    @rootUrl       = 'http://192.168.0.13:9000'
 
     if location.hostname is 'pairs.io'
       @rootUrl = 'http://pairs.io'
@@ -28,9 +28,9 @@ class Desktop
       @generateQrCode()
       false
 
-    @socket.io.on 'desktop:paired', => @onPaired()
+    @socket.io.on 'paired', => @onPaired()
 
-    @socket.io.on 'desktop:command', (data) =>
+    @socket.io.on 'message', (data) =>
       selector = @encryption.decryptAes(data.selector, @encryptionKey)
       event = @encryption.decryptAes(data.event, @encryptionKey)
       
@@ -80,9 +80,9 @@ class Desktop
 
     statsEl = $('#stats')
 
-    @socket.io.on 'desktop:stats', (stats) ->
+    @socket.io.on 'stats', (stats) ->
       $('#stats-visits', statsEl).text stats.visits
-      $('#stats-pairings', statsEl).text stats.pairings
+      $('#stats-pairings', statsEl).text stats.pairs
       statsEl.fadeIn 'slow'
 
     @generateVisualKey()
@@ -101,8 +101,8 @@ class Desktop
     key
 
   connectToServer: ->
-    @socket.io.emit 'desktop:connect', 
-      connectionKey: @connectionKey
+    @socket.io.emit 'connect', 
+      pairId: @connectionKey
 
   generateVisualKey: ->
     @visualKey = @encryption.randString(5)

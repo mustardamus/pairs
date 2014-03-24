@@ -1,64 +1,86 @@
-Desktop = require('./desktop')
-Remote  = require('./remote')
+io    = require('socket.io')
+Stats = require('./stats')
 
-class SocketServer
+class Server
   constructor: ->
-    @io      = require('socket.io').listen(12222)
-    @desktop = new Desktop
-    @remote  = new Remote
-
+    @io          = io.listen(12222)
     @connections = {}
+    @bedtime     = 1000 * 60 * 30
+    @stats       = new Stats
 
-    routes =
-      'desktop:connect': @desktop.onConnect
-      'desktop:command': @desktop.onCommand
-      'remote:connect' : @remote.onConnect
-      'remote:command' : @remote.onCommand
-
-    @io.enable('browser client minification')  # send minified client
-    @io.enable('browser client etag')          # apply etag caching logic based on version number
-    @io.enable('browser client gzip')          # gzip the file
-    @io.set('log level', 1)                    # reduce logging
-
-    @io.set('transports', [
-        'websocket'
-      , 'flashsocket'
-      , 'htmlfile'
-      , 'xhr-polling'
-      , 'jsonp-polling'
-    ])
+    @setupSocketIo()
 
     @io.sockets.on 'connection', (socket) =>
-      for routeUrl, routeFunc of routes
-        do (routeUrl, routeFunc) =>
-          socket.on routeUrl, (data) =>
-            routeFunc(@, socket, data, @getPairs(data.connectionKey))
+      socket.on 'connect', (data) => @onConnection(socket, data)
+      socket.on 'message', (data) => @onMessage(socket, data)
 
     setInterval =>
       @cleanConnections()
-    , 1000 * 60 * 30
+    , @bedtime
 
-  storeSocket: (socketType, connectionKey, socket) ->
-    keyObj = @connections[connectionKey]
+  setupSocketIo: ->
+    @io.enable 'browser client minification'
+    @io.enable 'browser client etag'
+    @io.enable 'browser client gzip'
 
-    unless keyObj
-      @connections[connectionKey] = keyObj = {}
+    @io.set 'log level', 1
+    @io.set 'transports', [
+      'websocket', 'flashsocket'
+      'htmlfile', 'xhr-polling'
+      'jsonp-polling'
+    ]
 
-    keyObj["#{socketType}Socket"] = socket
-    keyObj.lastSeen = Date.now()
+  onConnection: (socket, data) ->
+    return unless data.pairId
 
-    console.log "new #{socketType} connection:", connectionKey
+    pairId  = data.pairId
+    pairObj = @connections[pairId]
 
-  getPairs: (connectCode) ->
-    for code, data of @connections
-      if code is connectCode
-        return data
+    unless pairObj
+      pairObj = @connections[pairId] = { devices: [] }
 
-    false
+    # check if already in array
+    # instead of array, hash with socket.id as keys!
+    pairObj.devices.push
+      lastSeen  : Date.now()
+      deviceType: data.deviceType
+      socket    : socket
+
+    pairObj.lastSeen = Date.now()
+
+    if pairObj.devices.length > 1
+      @emitToPairs data.pairId, socket, 'paired'
+      socket.emit 'paired', {}
+      @stats.incPairs()
+
+    @stats.incVisits()
+    socket.emit 'stats', @stats.getStats()
+    
+    console.log 'new connected device', pairId, data
+
+  onMessage: (socket, data) ->
+    console.log 'message from', socket.id, data
+    @emitToPairs data.pairId, socket, 'message', data
+
+  emitToPairs: (pairId, socket, msg, data = {}) ->
+    pairObj = @connections[pairId]
+
+    return unless pairObj
+
+    delete data.pairId
+    pairObj.lastSeen = Date.now()
+
+    for device in pairObj.devices
+      if device.socket.id isnt socket.id # dont stream to self
+        device.socket.emit msg, data
+        console.log 'emit message', pairId, msg, data
+      else
+        device.lastSeen = Date.now()
 
   cleanConnections: ->
-    for connectionKey, pairs of @connections
-      if Date.now() - pairs.lastSeen > 1000 * 60 * 30
-        delete @connections[connectionKey]
+    for pairsId, pairs of @connections
+      if Date.now() - pairs.lastSeen > @bedtime
+        delete @connections[pairsId]
 
-new SocketServer
+
+new Server
