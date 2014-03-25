@@ -35,7 +35,7 @@ gulp.task('coffee', function() {
       extensions: ['.coffee']
     }))
     .pipe(concat('desktop.js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('./public/scripts/'))
     .pipe(connect.reload());
 

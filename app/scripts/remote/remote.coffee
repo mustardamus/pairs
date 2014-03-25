@@ -1,80 +1,56 @@
 Socket     = require('../socket')
 Encryption = require('../encryption')
+Keys       = require('../keys')
+Layout     = require('./layout')
 
 class Remote
   constructor: ->
-    @socket        = new Socket
-    @encryption    = new Encryption
+    @socket     = new Socket
+    @encryption = new Encryption
+    @keys       = new Keys
+    @layout     = new Layout
 
-    @socket.io.on 'paired', => @onPaired()
+    @socket.io.on 'paired', =>
+      @layout.onPaired()
 
-    @encHashData = location.hash.split('#').join('')
-    #console.log @encHashData.length # can not be null
-    # show error msg
+    hash = location.hash
+
+    if hash.length isnt 0
+      @hashData = hash.split('#')[1]
+      # else hide visual code form
+      # show msg to scan qr code
 
     $('#visual-code').on 'submit', (e) =>
-      key = $('#visual-code-input').val()
+      if @hashData
+        key = $('#visual-code-input').val()
+        ret = @keys.decryptWithVisualKey(key, @hashData)
+
+        @connect() if ret is true
+
       e.preventDefault()
       false
 
-      @encodeAndConnect key
-
-    $('#visual-code-input').focus()
-    # prompt() # shortcut und vom browser gestylt!
-
-    self = @
-    $('#button-dim').click ->
-      spanEl = $(@).children('span')
-
-      if spanEl.text() is 'Off'
-        spanEl.text 'On'
-        spanEl.addClass 'dim-on'
-        spanEl.removeClass 'dim-off'
-      else
-        spanEl.text 'Off'
-        spanEl.addClass 'dim-off'
-        spanEl.removeClass 'dim-on'
-
-      self.sendCommand { command: 'dim', event: 'click', selector: '#button-dim' }
+    $('#button-dim').click =>
+      @sendCommand { command: 'dim', event: 'click', selector: '#button-dim' }
 
       false
 
-    #@onPaired()
-
-  connectToServer: ->
+  connect: ->
     @socket.io.emit 'connect',
-      pairId: @connectionKey
+      pairId    : @keys.pairId
+      deviceType: 'remote'
 
   sendCommand: (data) ->
-    command  = @encryption.encryptAes(data.command, @encryptionKey)
-    event    = @encryption.encryptAes(data.event, @encryptionKey)
-    selector = @encryption.encryptAes(data.selector, @encryptionKey)
+    command  = @encryption.encryptAes(data.command, @keys.encryptionKey)
+    event    = @encryption.encryptAes(data.event, @keys.encryptionKey)
+    selector = @encryption.encryptAes(data.selector, @keys.encryptionKey)
     
     @socket.io.emit 'message',
       command      : command
       event        : event
       selector     : selector
-      pairId: @connectionKey
+      pairId       : @keys.pairId
 
-  encodeAndConnect: (key) ->
-    good = false
-
-    try
-      base64 = Base64.decode(@encHashData)
-      decData = @encryption.decryptAes(base64, key)
-      obj = JSON.parse(decData)
-      
-      @connectionKey = obj.ck
-      @encryptionKey = obj.ek
-      good = true
-    catch e
-      null isnt null
-    
-    @connectToServer() if good
-
-  onPaired: ->
-    $('.logo').addClass 'paired'
-    $('body').addClass 'isPaired'
 
 jQuery ->
   new Remote

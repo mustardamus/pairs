@@ -1,1 +1,291 @@
-!function t(e,n,r){function i(s,a){if(!n[s]){if(!e[s]){var c="function"==typeof require&&require;if(!a&&c)return c(s,!0);if(o)return o(s,!0);throw new Error("Cannot find module '"+s+"'")}var p=n[s]={exports:{}};e[s][0].call(p.exports,function(t){var n=e[s][1][t];return i(n?n:t)},p,p.exports,t,e,n,r)}return n[s].exports}for(var o="function"==typeof require&&require,s=0;s<r.length;s++)i(r[s]);return i}({1:[function(t){var e;e=function(){function e(){var e,n,r,i;n=t("../socket"),e=t("../encryption"),this.socket=new n,this.encryption=new e,this.rootUrl="http://192.168.0.13:9000","pairs.io"===location.hostname&&(this.rootUrl="http://pairs.io"),this.connectionKey=this.initKey("connectionCode"),this.encryptionKey=this.initKey("encryptionKey"),this.visualKey="",this.qrCode=new QRCode(document.getElementById("qr-code"),{text:"pairs.io",width:300,height:300}),$.supersized({slides:[{image:"../images/remotes_bg_min.png"}]}),$("#visual-code a").on("click",function(t){return function(){return t.generateVisualKey(),t.generateQrCode(),!1}}(this)),this.socket.io.on("paired",function(t){return function(){return t.onPaired()}}(this)),this.socket.io.on("message",function(t){return function(e){var n,r;return r=t.encryption.decryptAes(e.selector,t.encryptionKey),n=t.encryption.decryptAes(e.event,t.encryptionKey),$(r).trigger(n)}}(this)),$("#phone-wrapper").css("margin-top",$(window).height()),r=$("#overlay"),$("#button-dim").click(function(){var t;return t=$(this).children("span"),"none"===r.css("display")?(r.fadeIn("slow"),t.text("On"),t.addClass("dim-on"),t.removeClass("dim-off")):(r.fadeOut("slow"),t.text("Off"),t.addClass("dim-off"),t.removeClass("dim-on")),!1}),$("#steps li").on("click",function(){var t;return t=$(this),$("#steps .open").removeClass("open"),t.addClass("open")}),$('<img src="images/remotes_bg_min.png">').on("load",function(){return r.fadeOut(1200),$("body").css("overflow","auto"),$("#loading").fadeOut(800)}),$("#haeh").on("click",function(){return $("#credits").fadeIn("fast"),$(this).fadeOut("fast")}),$("#credits .close").on("click",function(){return $(this).parent().fadeOut("fast"),$("#haeh").fadeIn("fast")}),$("#right-wrapper").css({height:$(window).height(),overflow:"hidden"}),i=$("#stats"),this.socket.io.on("stats",function(t){return $("#stats-visits",i).text(t.visits),$("#stats-pairings",i).text(t.pairs),i.fadeIn("slow")}),this.generateVisualKey(),this.generateQrCode(),this.connectToServer()}return e.prototype.initKey=function(t){var e;return e=localStorage.getItem(t),e||(e=this.encryption.randString(),localStorage.setItem(t,e)),e},e.prototype.connectToServer=function(){return this.socket.io.emit("connect",{pairId:this.connectionKey})},e.prototype.generateVisualKey=function(){return this.visualKey=this.encryption.randString(5),$("#visual-code span").text(this.visualKey)},e.prototype.generateQrCode=function(){var t,e,n,r;return r=JSON.stringify({ck:this.connectionKey,ek:this.encryptionKey}),n=this.encryption.encryptAes(r,this.visualKey),t=Base64.encode(n),e=""+this.rootUrl+"/remote.html#"+t,this.qrCode.clear(),this.qrCode.makeCode(e),$("#qr-code").attr("title","")},e.prototype.onPaired=function(){var t;return $(".logo").addClass("paired"),t=$("#phone-wrapper").offset().top-10,$("#verification-wrapper").animate({top:"-"+t+"px"},"fast"),$("#phone-wrapper").animate({top:"-"+t+"px"},"fast"),$("#subscribe-wide").children().fadeOut("slow"),$("#steps h4 span").addClass("paired")},e}(),jQuery(function(){return new e})},{"../encryption":2,"../socket":3}],2:[function(t,e){var n;e.exports=n=function(){function t(){}return t.prototype.randString=function(t){return null==t&&(t=16),Math.random().toString(36).substr(2,t)},t.prototype.encryptAes=function(t,e){return GibberishAES.enc(t,e)},t.prototype.decryptAes=function(t,e){return GibberishAES.dec(t,e)},t}()},{}],3:[function(t,e){var n;e.exports=n=function(){function t(){"pairs.io"===location.hostname&&(this.socketUrl="http://pairs.io:12222"),this.io=io.connect(this.socketUrl)}return t.prototype.socketUrl="http://192.168.0.13:12222",t}()},{}]},{},[1]);
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Desktop, Encryption, Keys, Layout, PQRCode, Socket;
+
+Socket = require('../socket');
+
+Encryption = require('../encryption');
+
+PQRCode = require('./qrcode');
+
+Layout = require('./layout');
+
+Keys = require('../keys');
+
+Desktop = (function() {
+  function Desktop() {
+    this.socket = new Socket;
+    this.encryption = new Encryption;
+    this.qrCode = new PQRCode;
+    this.layout = new Layout;
+    this.keys = new Keys;
+    $('#visual-code a').on('click', (function(_this) {
+      return function() {
+        _this.generateQRCode();
+        return false;
+      };
+    })(this));
+    this.generateQRCode();
+    this.socket.io.on('paired', (function(_this) {
+      return function() {
+        return _this.layout.onPaired();
+      };
+    })(this));
+    this.socket.io.on('stats', (function(_this) {
+      return function(stats) {
+        return _this.layout.updateStats(stats);
+      };
+    })(this));
+    this.socket.io.emit('connect', {
+      pairId: this.keys.pairId,
+      deviceType: 'desktop'
+    });
+    this.socket.io.on('message', (function(_this) {
+      return function(data) {
+        var event, selector;
+        selector = _this.encryption.decryptAes(data.selector, _this.keys.encryptionKey);
+        event = _this.encryption.decryptAes(data.event, _this.keys.encryptionKey);
+        return $(selector).trigger(event);
+      };
+    })(this));
+  }
+
+  Desktop.prototype.generateQRCode = function() {
+    var visualKey;
+    visualKey = this.keys.generateVisualKey();
+    this.qrCode.generateCode(this.keys.pairId, this.keys.encryptionKey, visualKey);
+    return this.layout.setVisualKey(visualKey);
+  };
+
+  return Desktop;
+
+})();
+
+jQuery(function() {
+  return new Desktop;
+});
+
+
+},{"../encryption":4,"../keys":5,"../socket":6,"./layout":2,"./qrcode":3}],2:[function(require,module,exports){
+var Layout;
+
+module.exports = Layout = (function() {
+  function Layout() {
+    var overlayEl;
+    $.supersized({
+      slides: [
+        {
+          image: '../images/remotes_bg_min.png'
+        }
+      ]
+    });
+    $('#phone-wrapper').css('margin-top', $(window).height());
+    overlayEl = $('#overlay');
+    $('#button-dim').click(function() {
+      var spanEl;
+      spanEl = $(this).children('span');
+      if (overlayEl.css('display') === 'none') {
+        overlayEl.fadeIn('slow');
+        spanEl.text('On');
+        spanEl.addClass('dim-on');
+        spanEl.removeClass('dim-off');
+      } else {
+        overlayEl.fadeOut('slow');
+        spanEl.text('Off');
+        spanEl.addClass('dim-off');
+        spanEl.removeClass('dim-on');
+      }
+      return false;
+    });
+    $('#steps li').on('click', function() {
+      var liEl;
+      liEl = $(this);
+      $('#steps .open').removeClass('open');
+      return liEl.addClass('open');
+    });
+    $('<img src="images/remotes_bg_min.png">').on('load', function() {
+      overlayEl.fadeOut(1200);
+      $('body').css('overflow', 'auto');
+      return $('#loading').fadeOut(800);
+    });
+    $('#haeh').on('click', function() {
+      $('#credits').fadeIn('fast');
+      return $(this).fadeOut('fast');
+    });
+    $('#credits .close').on('click', function() {
+      $(this).parent().fadeOut('fast');
+      return $('#haeh').fadeIn('fast');
+    });
+    $('#right-wrapper').css({
+      height: $(window).height(),
+      overflow: 'hidden'
+    });
+    this.statsEl = $('#stats');
+    this.visitsEl = $('#stats-visits', this.statsEl);
+    this.pairsEl = $('#stats-pairings', this.statsEl);
+  }
+
+  Layout.prototype.updateStats = function(stats) {
+    this.visitsEl.text(stats.visits);
+    this.pairsEl.text(stats.pairs);
+    return this.statsEl.fadeIn('slow');
+  };
+
+  Layout.prototype.onPaired = function() {
+    var top;
+    $('.logo').addClass('paired');
+    top = $('#phone-wrapper').offset().top - 10;
+    $('#verification-wrapper').animate({
+      top: "-" + top + "px"
+    }, 'fast');
+    $('#phone-wrapper').animate({
+      top: "-" + top + "px"
+    }, 'fast');
+    $('#subscribe-wide').children().fadeOut('slow');
+    return $('#steps h4 span').addClass('paired');
+  };
+
+  Layout.prototype.setVisualKey = function(visualKey) {
+    return $('#visual-code span').text(visualKey);
+  };
+
+  return Layout;
+
+})();
+
+
+},{}],3:[function(require,module,exports){
+var Encryption, PQRCode;
+
+Encryption = require('../encryption');
+
+module.exports = PQRCode = (function() {
+  function PQRCode() {
+    this.encryption = new Encryption;
+    this.qrEl = $('#qr-code');
+    this.qrCode = new QRCode(this.qrEl.get(0), {
+      text: 'pairs.io',
+      width: 300,
+      height: 300
+    });
+    this.rootUrl = 'http://192.168.0.13:9000';
+    if (location.hostname === 'pairs.io') {
+      this.rootUrl = 'http://pairs.io';
+    }
+  }
+
+  PQRCode.prototype.generateCode = function(pairId, encryptionKey, visualKey) {
+    var data, encrypted, json;
+    json = JSON.stringify({
+      pId: pairId,
+      eKey: encryptionKey
+    });
+    encrypted = this.encryption.encryptAes(json, visualKey);
+    data = Base64.encode(encrypted);
+    this.qrCode.clear();
+    return this.qrCode.makeCode("" + this.rootUrl + "/remote.html#" + data);
+  };
+
+  return PQRCode;
+
+})();
+
+
+},{"../encryption":4}],4:[function(require,module,exports){
+var Encryption;
+
+module.exports = Encryption = (function() {
+  function Encryption() {}
+
+  Encryption.prototype.randString = function(length) {
+    if (length == null) {
+      length = 16;
+    }
+    return Math.random().toString(36).substr(2, length);
+  };
+
+  Encryption.prototype.encryptAes = function(data, key) {
+    return GibberishAES.enc(data, key);
+  };
+
+  Encryption.prototype.decryptAes = function(data, key) {
+    return GibberishAES.dec(data, key);
+  };
+
+  return Encryption;
+
+})();
+
+
+},{}],5:[function(require,module,exports){
+var Encryption, Keys;
+
+Encryption = require('./encryption');
+
+module.exports = Keys = (function() {
+  function Keys() {
+    this.encryption = new Encryption;
+    this.initKey('pairId');
+    this.initKey('encryptionKey');
+    this.visualKey = this.generateVisualKey();
+  }
+
+  Keys.prototype.initKey = function(keyName) {
+    var key;
+    key = localStorage.getItem(keyName);
+    if (!key) {
+      key = this.encryption.randString();
+    }
+    return this.setKey(keyName, key);
+  };
+
+  Keys.prototype.setKey = function(keyName, value) {
+    localStorage.setItem(keyName, value);
+    return this[keyName] = value;
+  };
+
+  Keys.prototype.generateVisualKey = function() {
+    this.visualKey = this.encryption.randString(5);
+    return this.visualKey;
+  };
+
+  Keys.prototype.decryptWithVisualKey = function(key, base64) {
+    var decData, e, encData, json, valid;
+    valid = false;
+    try {
+      encData = Base64.decode(base64);
+      decData = this.encryption.decryptAes(encData, key);
+      json = JSON.parse(decData);
+      this.setKey('pairId', json.pId);
+      this.setKey('encryptionKey', json.eKey);
+      this.visualKey = key;
+      valid = true;
+    } catch (_error) {
+      e = _error;
+    }
+    return valid;
+  };
+
+  return Keys;
+
+})();
+
+
+},{"./encryption":4}],6:[function(require,module,exports){
+var Socket;
+
+module.exports = Socket = (function() {
+  Socket.prototype.socketUrl = 'http://192.168.0.13:12222';
+
+  function Socket() {
+    if (location.hostname === 'pairs.io') {
+      this.socketUrl = 'http://pairs.io:12222';
+    }
+    this.io = io.connect(this.socketUrl);
+  }
+
+  return Socket;
+
+})();
+
+
+},{}]},{},[1])
