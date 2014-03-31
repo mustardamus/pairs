@@ -1,8 +1,47 @@
 module.exports = class Layout
   constructor: ->
-    $.supersized
-      slides: [ { image : '../images/remotes_bg_min.png' }]
+    @winEl = $(window)
+    @bannerEl = $('#banner')
+    @qrEl = $('#qr-wrapper')
+    @navigationEl = $('#navigation-wrapper')
 
+    @qrEl.waypoint (dir) =>
+      if dir is 'down'
+        @downsizeBanner()
+      else
+        @upsizeBanner()
+
+  downsizeBanner: ->
+    @bannerEl.animate
+      height: 110
+    , 'fast'
+
+    $('img', @bannerEl).animate
+      top: '-300px'
+    , 'fast'
+
+    @navigationEl.animate
+      top: '-15px'
+    , 'fast'
+
+    @qrEl.fadeOut 100
+
+  upsizeBanner: ->
+    @bannerEl.animate
+      height: '80%'
+    , 'fast'
+
+    $('img', @bannerEl).animate
+      top: '-100px'
+    , 'fast'
+
+    @navigationEl.animate
+      top: '80%'
+    , 'fast'
+
+    @qrEl.fadeIn 100
+
+  laterBoy: ->
     $('#phone-wrapper').css 'margin-top', $(window).height()
 
     overlayEl = $('#overlay')
@@ -71,4 +110,4 @@ module.exports = class Layout
     $('#steps h4 span').addClass 'paired'
 
   setVisualKey: (visualKey) ->
-    $('#visual-code span').text visualKey
+    $('#visual-key').text visualKey

@@ -70,14 +70,49 @@ var Layout;
 
 module.exports = Layout = (function() {
   function Layout() {
-    var overlayEl;
-    $.supersized({
-      slides: [
-        {
-          image: '../images/remotes_bg_min.png'
+    this.winEl = $(window);
+    this.bannerEl = $('#banner');
+    this.qrEl = $('#qr-wrapper');
+    this.navigationEl = $('#navigation-wrapper');
+    this.qrEl.waypoint((function(_this) {
+      return function(dir) {
+        if (dir === 'down') {
+          return _this.downsizeBanner();
+        } else {
+          return _this.upsizeBanner();
         }
-      ]
-    });
+      };
+    })(this));
+  }
+
+  Layout.prototype.downsizeBanner = function() {
+    this.bannerEl.animate({
+      height: 110
+    }, 'fast');
+    $('img', this.bannerEl).animate({
+      top: '-300px'
+    }, 'fast');
+    this.navigationEl.animate({
+      top: '-15px'
+    }, 'fast');
+    return this.qrEl.fadeOut(100);
+  };
+
+  Layout.prototype.upsizeBanner = function() {
+    this.bannerEl.animate({
+      height: '80%'
+    }, 'fast');
+    $('img', this.bannerEl).animate({
+      top: '-100px'
+    }, 'fast');
+    this.navigationEl.animate({
+      top: '80%'
+    }, 'fast');
+    return this.qrEl.fadeIn(100);
+  };
+
+  Layout.prototype.laterBoy = function() {
+    var overlayEl;
     $('#phone-wrapper').css('margin-top', $(window).height());
     overlayEl = $('#overlay');
     $('#button-dim').click(function() {
@@ -121,8 +156,8 @@ module.exports = Layout = (function() {
     });
     this.statsEl = $('#stats');
     this.visitsEl = $('#stats-visits', this.statsEl);
-    this.pairsEl = $('#stats-pairings', this.statsEl);
-  }
+    return this.pairsEl = $('#stats-pairings', this.statsEl);
+  };
 
   Layout.prototype.updateStats = function(stats) {
     this.visitsEl.text(stats.visits);
@@ -145,7 +180,7 @@ module.exports = Layout = (function() {
   };
 
   Layout.prototype.setVisualKey = function(visualKey) {
-    return $('#visual-code span').text(visualKey);
+    return $('#visual-key').text(visualKey);
   };
 
   return Layout;
