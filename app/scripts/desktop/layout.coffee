@@ -11,6 +11,15 @@ module.exports = class Layout
       else
         @upsizeBanner()
 
+    $('#navigation a:first', @navigationEl).hover(
+      =>
+        @bannerEl.addClass 'shake shake-little shake-constant'
+        console.log 'shake!'
+      , =>
+        @bannerEl.removeClass 'shake shake-little shake-constant'
+        console.log 'dont shake!'
+    )
+
   downsizeBanner: ->
     @bannerEl.animate
       height: 110

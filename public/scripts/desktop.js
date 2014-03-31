@@ -83,6 +83,17 @@ module.exports = Layout = (function() {
         }
       };
     })(this));
+    $('#navigation a:first', this.navigationEl).hover((function(_this) {
+      return function() {
+        _this.bannerEl.addClass('shake shake-little shake-constant');
+        return console.log('shake!');
+      };
+    })(this), (function(_this) {
+      return function() {
+        _this.bannerEl.removeClass('shake shake-little shake-constant');
+        return console.log('dont shake!');
+      };
+    })(this));
   }
 
   Layout.prototype.downsizeBanner = function() {
