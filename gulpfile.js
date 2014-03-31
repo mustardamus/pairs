@@ -69,7 +69,7 @@ gulp.task('copy-html', function() {
 gulp.task('copy-fonts', function() {
   gulp
     .src('./app/bower_components/font-awesome/fonts/*')
-    .pipe(gulp.dest('./public/styles/fonts/'));
+    .pipe(gulp.dest('./public/fonts/'));
 
   gulp
     .src('./app/bower_components/semantic/build/uncompressed/fonts/*')
@@ -94,7 +94,7 @@ gulp.task('build',
 
 gulp.task('watch', function() {
   gulp.watch('./app/*.html', ['copy-html']);
-  gulp.watch('./app/styles/*.styl', ['stylus']);
+  gulp.watch('./app/styles/**/*.styl', ['stylus']);
   gulp.watch('./app/styles/vendor.css', ['vendor-css']);
   gulp.watch('./app/scripts/**/*', ['coffee']);
   gulp.watch('./app/scripts/vendor.js', ['vendor-js']);

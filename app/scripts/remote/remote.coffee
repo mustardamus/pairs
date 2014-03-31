@@ -17,17 +17,32 @@ class Remote
 
     if hash.length isnt 0
       @hashData = hash.split('#')[1]
-      # else hide visual code form
-      # show msg to scan qr code
+    else
+      if localStorage.getItem('pairId') # always set, init by @keys
+        @connect()
+      else
+        $('#nohash').show()
+        $('#visual-key-wrapper').hide()
 
-    $('#visual-code').on 'submit', (e) =>
+    visualKeyErrorEl = $('#visual-key-wrapper .error')
+    visualKeyInputEl = $('#visual-key-input')
+
+    $('#visual-key-form').on 'submit', (e) =>
       if @hashData
-        key = $('#visual-code-input').val()
+        key = visualKeyInputEl.val()
         ret = @keys.decryptWithVisualKey(key, @hashData)
 
-        @connect() if ret is true
+        if ret is true
+          @connect()
+          visualKeyErrorEl.hide()
+        else
+          visualKeyErrorEl.show()
 
       e.preventDefault()
+      false
+
+    $('#reset').on 'click', =>
+      @keys.clear()
       false
 
     $('#button-dim').click =>

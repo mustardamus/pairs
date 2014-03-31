@@ -265,6 +265,10 @@ module.exports = Keys = (function() {
     return valid;
   };
 
+  Keys.prototype.clear = function() {
+    return localStorage.clear();
+  };
+
   return Keys;
 
 })();

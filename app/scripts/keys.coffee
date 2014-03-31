@@ -40,3 +40,6 @@ module.exports = class Keys
     catch e
       
     valid
+
+  clear: ->
+    localStorage.clear()
