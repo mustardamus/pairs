@@ -22,7 +22,8 @@ module.exports = class Layout
 
     @navigationEl.animate
       top: '-15px'
-    , 'fast'
+    , 'fast', =>
+      @navigationEl.addClass 'small'
 
     @qrEl.fadeOut 100
 
@@ -37,7 +38,8 @@ module.exports = class Layout
 
     @navigationEl.animate
       top: '80%'
-    , 'fast'
+    , 'fast', =>
+      @navigationEl.removeClass 'small'
 
     @qrEl.fadeIn 100
 

@@ -94,7 +94,11 @@ module.exports = Layout = (function() {
     }, 'fast');
     this.navigationEl.animate({
       top: '-15px'
-    }, 'fast');
+    }, 'fast', (function(_this) {
+      return function() {
+        return _this.navigationEl.addClass('small');
+      };
+    })(this));
     return this.qrEl.fadeOut(100);
   };
 
@@ -107,7 +111,11 @@ module.exports = Layout = (function() {
     }, 'fast');
     this.navigationEl.animate({
       top: '80%'
-    }, 'fast');
+    }, 'fast', (function(_this) {
+      return function() {
+        return _this.navigationEl.removeClass('small');
+      };
+    })(this));
     return this.qrEl.fadeIn(100);
   };
 
