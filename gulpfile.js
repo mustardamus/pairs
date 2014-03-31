@@ -94,7 +94,7 @@ gulp.task('build',
 
 gulp.task('watch', function() {
   gulp.watch('./app/*.html', ['copy-html']);
-  gulp.watch('./app/styles/**/*.styl', ['stylus']);
+  gulp.watch(['./app/styles/desktop/*.styl', './app/styles/remote/*.styl'], ['stylus']);
   gulp.watch('./app/styles/vendor.css', ['vendor-css']);
   gulp.watch('./app/scripts/**/*', ['coffee']);
   gulp.watch('./app/scripts/vendor.js', ['vendor-js']);

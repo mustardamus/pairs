@@ -24,6 +24,7 @@
     "supersized": "*",
     "normalize-css": "~3.0.0",
     "font-awesome": "~4.0.3",
-    "js-base64": "~2.1.2"
+    "js-base64": "~2.1.2",
+    "jquery-waypoints": "~2.0.4"
   }
 }
