@@ -70,6 +70,7 @@ var Layout;
 
 module.exports = Layout = (function() {
   function Layout() {
+    var navAs;
     this.winEl = $(window);
     this.bannerEl = $('#banner');
     this.qrEl = $('#qr-wrapper');
@@ -92,14 +93,12 @@ module.exports = Layout = (function() {
         return _this.bannerEl.removeClass('shake shake-little shake-constant');
       };
     })(this));
-    $('#navigation a', this.navigationEl).not(':first').smoothScroll();
-    $('#navigation a:first', this.navigationEl).on('click', (function(_this) {
-      return function() {
-        _this.upsizeBanner();
-        $('html,body').scrollTop(0);
-        return false;
-      };
-    })(this));
+    navAs = $('#navigation a', this.navigationEl);
+    navAs.smoothScroll();
+    navAs.on('click', function() {
+      navAs.removeClass('current');
+      return $(this).addClass('current');
+    });
   }
 
   Layout.prototype.downsizeBanner = function() {

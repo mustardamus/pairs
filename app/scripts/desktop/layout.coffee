@@ -18,11 +18,15 @@ module.exports = class Layout
         @bannerEl.removeClass 'shake shake-little shake-constant'
     )
 
-    $('#navigation a', @navigationEl).not(':first').smoothScroll()
-    $('#navigation a:first', @navigationEl).on 'click', =>
-      @upsizeBanner()
-      $('html,body').scrollTop(0)
-      false
+    navAs = $('#navigation a', @navigationEl)
+    navAs.smoothScroll()
+    navAs.on 'click', ->
+      navAs.removeClass 'current'
+      $(@).addClass 'current'
+    #$('#navigation a:first', @navigationEl).on 'click', =>
+    #  @upsizeBanner()
+    #  $('html,body').scrollTop(0)
+    #  false
 
   downsizeBanner: ->
     @bannerEl.animate
