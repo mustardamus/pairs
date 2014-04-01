@@ -85,13 +85,19 @@ module.exports = Layout = (function() {
     })(this));
     $('#navigation a:first', this.navigationEl).hover((function(_this) {
       return function() {
-        _this.bannerEl.addClass('shake shake-little shake-constant');
-        return console.log('shake!');
+        return _this.bannerEl.addClass('shake shake-little shake-constant');
       };
     })(this), (function(_this) {
       return function() {
-        _this.bannerEl.removeClass('shake shake-little shake-constant');
-        return console.log('dont shake!');
+        return _this.bannerEl.removeClass('shake shake-little shake-constant');
+      };
+    })(this));
+    $('#navigation a', this.navigationEl).not(':first').smoothScroll();
+    $('#navigation a:first', this.navigationEl).on('click', (function(_this) {
+      return function() {
+        _this.upsizeBanner();
+        $('html,body').scrollTop(0);
+        return false;
       };
     })(this));
   }

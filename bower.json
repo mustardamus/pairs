@@ -26,6 +26,7 @@
     "font-awesome": "~4.0.3",
     "js-base64": "~2.1.2",
     "jquery-waypoints": "~2.0.4",
-    "csshake": "*"
+    "csshake": "*",
+    "jquery.smooth-scroll": "~1.4.13"
   }
 }

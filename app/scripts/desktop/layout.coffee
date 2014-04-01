@@ -14,11 +14,15 @@ module.exports = class Layout
     $('#navigation a:first', @navigationEl).hover(
       =>
         @bannerEl.addClass 'shake shake-little shake-constant'
-        console.log 'shake!'
       , =>
         @bannerEl.removeClass 'shake shake-little shake-constant'
-        console.log 'dont shake!'
     )
+
+    $('#navigation a', @navigationEl).not(':first').smoothScroll()
+    $('#navigation a:first', @navigationEl).on 'click', =>
+      @upsizeBanner()
+      $('html,body').scrollTop(0)
+      false
 
   downsizeBanner: ->
     @bannerEl.animate
