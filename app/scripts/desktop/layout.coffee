@@ -19,7 +19,7 @@ module.exports = class Layout
     )
 
     navAs = $('#navigation a', @navigationEl)
-    navAs.smoothScroll()
+    navAs.smoothScroll({speed:200})
     navAs.on 'click', ->
       navAs.removeClass 'current'
       $(@).addClass 'current'

@@ -94,7 +94,9 @@ module.exports = Layout = (function() {
       };
     })(this));
     navAs = $('#navigation a', this.navigationEl);
-    navAs.smoothScroll();
+    navAs.smoothScroll({
+      speed: 200
+    });
     navAs.on('click', function() {
       navAs.removeClass('current');
       return $(this).addClass('current');

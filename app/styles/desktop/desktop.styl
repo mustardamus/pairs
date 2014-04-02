@@ -137,6 +137,7 @@ body
 
       &.current
         border-bottom: 1px solid red
+        cursor: default
 
   &.small
     #navigation a i
@@ -148,12 +149,13 @@ body
   left: 0
   width: 100%
   height: 100%
+  cursor: default
   text-align: center
   z-index: 0399
 
   .section
     margin: 0 auto
-    width: 1024px
+    width: 90%
     text-align: left
     padding-top: 130px
     min-height: 90%
@@ -163,10 +165,52 @@ body
       font-size: 3em
       color: grey
       text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8)
+      margin-bottom: 20px
+
+    h4
+      font-weight: normal
+      color: #ddd
+      font-size: 1.1em
+
+      span
+        color: red
+
+.row
+  .threecolumn
+    float: left
+    width: 33%
+
+    p
+      width: 90%
+      color: #ddd
 
 
 #how-it-works
-  min-height: 1111px
+  .stepimg
+    position: relative
+
+    .fa
+      position: absolute
+      top: 0
+      left: 280px
+      font-size: 3em
+      background: #222
+      padding: 5px 10px
+      color: rgba(0, 0, 0, 0.5)
+      border-left: 3px solid rgba(0, 0, 0, 0.3)
+      border-radius: 2px
+
+    img
+      border: 8px solid rgba(0, 0, 0, 0.2)
+
+  .threecolumn:hover
+    h4, p
+      color: white
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4)
+
+    .stepimg .fa
+      color: red
+
 
 /*
 body
