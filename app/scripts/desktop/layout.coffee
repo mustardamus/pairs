@@ -10,6 +10,7 @@ module.exports = class Layout
         @downsizeBanner()
       else
         @upsizeBanner()
+    , { offset: -100 }
 
     $('#navigation a:first', @navigationEl).hover(
       =>
@@ -20,13 +21,23 @@ module.exports = class Layout
 
     navAs = $('#navigation a', @navigationEl)
     navAs.smoothScroll({speed:200})
-    navAs.on 'click', ->
-      navAs.removeClass 'current'
-      $(@).addClass 'current'
+    #navAs.on 'click', ->
+    #  navAs.removeClass 'current'
+    #  $(@).addClass 'current'
     #$('#navigation a:first', @navigationEl).on 'click', =>
     #  @upsizeBanner()
     #  $('html,body').scrollTop(0)
     #  false
+
+    $('#content .section').waypoint (dir) ->
+      #return unless dir isnt 'up'
+
+      el = $(@)
+      id = el.attr('id')
+
+      navAs.removeClass 'current'
+      navAs.parent().find("a[href='##{id}']").addClass 'current'
+    , { offset: 50 }
 
   downsizeBanner: ->
     @bannerEl.animate

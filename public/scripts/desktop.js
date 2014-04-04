@@ -83,7 +83,9 @@ module.exports = Layout = (function() {
           return _this.upsizeBanner();
         }
       };
-    })(this));
+    })(this), {
+      offset: -100
+    });
     $('#navigation a:first', this.navigationEl).hover((function(_this) {
       return function() {
         return _this.bannerEl.addClass('shake shake-little shake-constant');
@@ -97,9 +99,14 @@ module.exports = Layout = (function() {
     navAs.smoothScroll({
       speed: 200
     });
-    navAs.on('click', function() {
+    $('#content .section').waypoint(function(dir) {
+      var el, id;
+      el = $(this);
+      id = el.attr('id');
       navAs.removeClass('current');
-      return $(this).addClass('current');
+      return navAs.parent().find("a[href='#" + id + "']").addClass('current');
+    }, {
+      offset: 50
     });
   }
 

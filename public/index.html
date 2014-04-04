@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="styles/vendor.css" />
     <link rel="stylesheet" href="styles/desktop/vendor.css" />
     <link rel="stylesheet" href="styles/desktop/desktop.css" />
-    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/gauge.css" type="text/css">
   </head>
 
   <body id="try-it-out">
@@ -121,9 +120,24 @@
 
       <div id="subscribe" class="section">
         <h2>Subscribe</h2>
-        <p>
-          Some stuff here :)
-        </p>
+        
+        <form id="subscribe-form" action="http://mustardamus.us3.list-manage1.com/subscribe/post?u=710a7d87c46387c97aed7d19c&amp;id=87babf67eb" method="post"  target="_blank">
+          <input type="text" placeholder="via your email address" name="EMAIL" id="subscribe-email">
+          
+          <div style="position: absolute; left: -5000px;"><input type="text" name="b_710a7d87c46387c97aed7d19c_87babf67eb" value=""></div>
+
+          <input type="submit" value="Subscribe">
+        </form>
+
+        <div id="social">
+          <a href="mailto:hi@pairs.io" title="Say hi!">
+            <i class="fa fa-envelope-o"></i>
+            
+          </a>
+          <a href="https://twitter.com/pairsio" title="Follow on Twitter">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -276,8 +290,8 @@
 
     <script type="text/javascript" src="scripts/vendor.js"></script>
     <script type="text/javascript" src="scripts/desktop/vendor.js"></script>
-    <!--<script src="http://192.168.0.11:12222/socket.io/socket.io.js"></script>-->
-    <script src="http://pairs.io:12222/socket.io/socket.io.js"></script>
+    <script src="http://localhost:12222/socket.io/socket.io.js"></script>
+    <!--<script src="http://pairs.io:12222/socket.io/socket.io.js"></script>-->
     <script type="text/javascript" src="scripts/desktop.js"></script>
   </body>
 </html>
