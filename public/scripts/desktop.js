@@ -70,7 +70,7 @@ var Layout;
 
 module.exports = Layout = (function() {
   function Layout() {
-    var navAs;
+    var markCurrentWhoopy, navAs, sectionEls, tryOutEl;
     this.winEl = $(window);
     this.bannerEl = $('#banner');
     this.qrEl = $('#qr-wrapper');
@@ -86,7 +86,18 @@ module.exports = Layout = (function() {
     })(this), {
       offset: -100
     });
-    $('#navigation a:first', this.navigationEl).hover((function(_this) {
+    tryOutEl = $('#navigation a:first', this.navigationEl);
+    navAs = $('#navigation a', this.navigationEl);
+    navAs.not(':first').smoothScroll({
+      speed: 200
+    });
+    markCurrentWhoopy = function(el) {
+      var id;
+      id = el.attr('id');
+      navAs.removeClass('current');
+      return navAs.parent().find("a[href='#" + id + "']").addClass('current');
+    };
+    tryOutEl.hover((function(_this) {
       return function() {
         return _this.bannerEl.addClass('shake shake-little shake-constant');
       };
@@ -94,19 +105,31 @@ module.exports = Layout = (function() {
       return function() {
         return _this.bannerEl.removeClass('shake shake-little shake-constant');
       };
-    })(this));
-    navAs = $('#navigation a', this.navigationEl);
-    navAs.smoothScroll({
-      speed: 200
-    });
-    $('#content .section').waypoint(function(dir) {
-      var el, id;
+    })(this)).on('click', function() {
+      var el;
       el = $(this);
-      id = el.attr('id');
-      navAs.removeClass('current');
-      return navAs.parent().find("a[href='#" + id + "']").addClass('current');
+      $('html,body').animate({
+        scrollTop: 0
+      }, 'fast', function() {
+        navAs.removeClass('current');
+        return el.addClass('current');
+      });
+      return false;
+    });
+    sectionEls = $('#content .section');
+    sectionEls.waypoint(function(dir) {
+      if (dir === 'down') {
+        return markCurrentWhoopy($(this));
+      }
     }, {
       offset: 50
+    });
+    sectionEls.waypoint(function(dir) {
+      if (dir === 'up') {
+        return markCurrentWhoopy($(this));
+      }
+    }, {
+      offset: '-80%'
     });
   }
 

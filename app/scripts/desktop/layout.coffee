@@ -12,32 +12,44 @@ module.exports = class Layout
         @upsizeBanner()
     , { offset: -100 }
 
-    $('#navigation a:first', @navigationEl).hover(
-      =>
-        @bannerEl.addClass 'shake shake-little shake-constant'
-      , =>
-        @bannerEl.removeClass 'shake shake-little shake-constant'
-    )
-
+    tryOutEl = $('#navigation a:first', @navigationEl)
     navAs = $('#navigation a', @navigationEl)
-    navAs.smoothScroll({speed:200})
-    #navAs.on 'click', ->
-    #  navAs.removeClass 'current'
-    #  $(@).addClass 'current'
-    #$('#navigation a:first', @navigationEl).on 'click', =>
-    #  @upsizeBanner()
-    #  $('html,body').scrollTop(0)
-    #  false
+    
+    navAs.not(':first').smoothScroll({speed:200})
 
-    $('#content .section').waypoint (dir) ->
-      #return unless dir isnt 'up'
-
-      el = $(@)
+    markCurrentWhoopy = (el) ->
       id = el.attr('id')
 
       navAs.removeClass 'current'
       navAs.parent().find("a[href='##{id}']").addClass 'current'
+
+    tryOutEl
+      .hover(
+        =>
+          @bannerEl.addClass 'shake shake-little shake-constant'
+        , =>
+          @bannerEl.removeClass 'shake shake-little shake-constant'
+      )
+      .on 'click', ->
+        el = $(@)
+
+        $('html,body').animate
+          scrollTop: 0
+        , 'fast', ->
+          navAs.removeClass 'current'
+          el.addClass 'current'
+
+        false
+
+    sectionEls = $('#content .section')
+
+    sectionEls.waypoint (dir) ->
+      markCurrentWhoopy($(@)) if dir is 'down'
     , { offset: 50 }
+
+    sectionEls.waypoint (dir) ->
+      markCurrentWhoopy($(@)) if dir is 'up'
+    , { offset: '-80%' }
 
   downsizeBanner: ->
     @bannerEl.animate
