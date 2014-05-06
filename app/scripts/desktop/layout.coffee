@@ -5,15 +5,17 @@ module.exports = class Layout
     @qrEl = $('#qr-wrapper')
     @navigationEl = $('#navigation-wrapper')
 
+    tryOutEl = $('#navigation a:first', @navigationEl)
+    navAs = $('#navigation a', @navigationEl)
+
     @qrEl.waypoint (dir) =>
       if dir is 'down'
         @downsizeBanner()
       else
         @upsizeBanner()
+        navAs.removeClass 'current'
+        tryOutEl.addClass 'current'
     , { offset: -100 }
-
-    tryOutEl = $('#navigation a:first', @navigationEl)
-    navAs = $('#navigation a', @navigationEl)
     
     navAs.not(':first').smoothScroll({speed:200})
 

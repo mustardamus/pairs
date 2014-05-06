@@ -75,19 +75,21 @@ module.exports = Layout = (function() {
     this.bannerEl = $('#banner');
     this.qrEl = $('#qr-wrapper');
     this.navigationEl = $('#navigation-wrapper');
+    tryOutEl = $('#navigation a:first', this.navigationEl);
+    navAs = $('#navigation a', this.navigationEl);
     this.qrEl.waypoint((function(_this) {
       return function(dir) {
         if (dir === 'down') {
           return _this.downsizeBanner();
         } else {
-          return _this.upsizeBanner();
+          _this.upsizeBanner();
+          navAs.removeClass('current');
+          return tryOutEl.addClass('current');
         }
       };
     })(this), {
       offset: -100
     });
-    tryOutEl = $('#navigation a:first', this.navigationEl);
-    navAs = $('#navigation a', this.navigationEl);
     navAs.not(':first').smoothScroll({
       speed: 200
     });
