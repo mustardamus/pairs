@@ -99,7 +99,7 @@ module.exports = Layout = (function() {
       navAs.removeClass('current');
       return navAs.parent().find("a[href='#" + id + "']").addClass('current');
     };
-    tryOutEl.hover((function(_this) {
+    $('.try-it-out').hover((function(_this) {
       return function() {
         return _this.bannerEl.addClass('shake shake-little shake-constant');
       };
@@ -108,13 +108,11 @@ module.exports = Layout = (function() {
         return _this.bannerEl.removeClass('shake shake-little shake-constant');
       };
     })(this)).on('click', function() {
-      var el;
-      el = $(this);
       $('html,body').animate({
         scrollTop: 0
       }, 'fast', function() {
         navAs.removeClass('current');
-        return el.addClass('current');
+        return tryOutEl.addClass('current');
       });
       return false;
     });

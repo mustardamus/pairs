@@ -25,7 +25,7 @@ module.exports = class Layout
       navAs.removeClass 'current'
       navAs.parent().find("a[href='##{id}']").addClass 'current'
 
-    tryOutEl
+    $('.try-it-out')
       .hover(
         =>
           @bannerEl.addClass 'shake shake-little shake-constant'
@@ -33,13 +33,11 @@ module.exports = class Layout
           @bannerEl.removeClass 'shake shake-little shake-constant'
       )
       .on 'click', ->
-        el = $(@)
-
         $('html,body').animate
           scrollTop: 0
         , 'fast', ->
           navAs.removeClass 'current'
-          el.addClass 'current'
+          tryOutEl.addClass 'current'
 
         false
 
