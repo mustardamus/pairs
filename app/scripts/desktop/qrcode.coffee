@@ -22,4 +22,4 @@ module.exports = class PQRCode
 
     @qrCode.clear()
     @qrCode.makeCode "#{@rootUrl}/remote.html##{data}"
-    #@qrEl.attr 'title', ''
+    @qrEl.attr 'title', ''

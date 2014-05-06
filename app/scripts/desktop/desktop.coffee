@@ -12,7 +12,7 @@ class Desktop
     @layout     = new Layout
     @keys       = new Keys
 
-    $('#visual-code a').on 'click', =>
+    $('#visual-key-recreate').on 'click', =>
       @generateQRCode()
       false
 

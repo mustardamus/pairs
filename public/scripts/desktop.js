@@ -18,7 +18,7 @@ Desktop = (function() {
     this.qrCode = new PQRCode;
     this.layout = new Layout;
     this.keys = new Keys;
-    $('#visual-code a').on('click', (function(_this) {
+    $('#visual-key-recreate').on('click', (function(_this) {
       return function() {
         _this.generateQRCode();
         return false;
@@ -273,7 +273,8 @@ module.exports = PQRCode = (function() {
     encrypted = this.encryption.encryptAes(json, visualKey);
     data = Base64.encode(encrypted);
     this.qrCode.clear();
-    return this.qrCode.makeCode("" + this.rootUrl + "/remote.html#" + data);
+    this.qrCode.makeCode("" + this.rootUrl + "/remote.html#" + data);
+    return this.qrEl.attr('title', '');
   };
 
   return PQRCode;
