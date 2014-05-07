@@ -73,7 +73,7 @@ module.exports = Layout = (function() {
     var markCurrentWhoopy, navAs, sectionEls, tryOutEl;
     this.winEl = $(window);
     this.bannerEl = $('#banner');
-    this.qrEl = $('#qr-wrapper');
+    this.qrEl = $('#top-wrapper');
     this.navigationEl = $('#navigation-wrapper');
     tryOutEl = $('#navigation a:first', this.navigationEl);
     navAs = $('#navigation a', this.navigationEl);

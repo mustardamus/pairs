@@ -2,7 +2,7 @@ module.exports = class Layout
   constructor: ->
     @winEl = $(window)
     @bannerEl = $('#banner')
-    @qrEl = $('#qr-wrapper')
+    @qrEl = $('#top-wrapper')
     @navigationEl = $('#navigation-wrapper')
 
     tryOutEl = $('#navigation a:first', @navigationEl)
