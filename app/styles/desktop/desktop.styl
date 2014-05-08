@@ -116,6 +116,88 @@ body
         box-shadow: inset 0 0 30px black 
         margin-top: 63px
         border-radius: 2px
+        position: relative
+
+        .column
+          float: left
+          width: 33%
+          text-align: center
+
+        #controls
+          background: grey
+          min-height: 70px
+          max-height: 70px
+          position: absolute
+          bottom: 0
+          left: 0
+          width: 100%
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.6)
+          z-index: 3
+
+          a
+            margin: 0 auto
+            display: block
+            width: 33px
+            height: 33px
+            background: rgba(0, 0, 0, 0.3)
+            border-radius: 500px
+            color: #222
+            font-size: 1em
+            position: relative
+            margin-top: 19px
+            border-bottom: 1px solid rgba(0, 0, 0, 0.6)
+
+            i
+              position: absolute
+              top: 10px
+              text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2)
+
+          .left a i
+            left: 8px
+
+          .mid a i
+            left: 12px
+
+          .right a i
+            left: 11px
+
+          a.playing i
+            left: 10px
+
+
+        header
+          min-height: 40px
+          max-height: 40px
+          position: relative
+          background: grey
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.2)
+          z-index: 3
+
+          h1
+            font-size: 1.3em
+            font-weight: normal
+            margin: 0
+            padding: 6px 0 0 10px
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5)
+            color: #444
+
+            span
+              background: green
+              padding: 1px 3px
+              border-radius: 2px
+              text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2)
+              color: #222
+
+        #current-image
+          position: absolute
+          top: 30px
+          width: 100%
+          height: 340px
+          overflow: hidden
+
+          img
+            position: absolute
+            left: -68%
 
 #navigation-wrapper
   position: fixed

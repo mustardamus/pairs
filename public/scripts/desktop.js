@@ -70,7 +70,7 @@ var Layout;
 
 module.exports = Layout = (function() {
   function Layout() {
-    var markCurrentWhoopy, navAs, sectionEls, tryOutEl;
+    var markCurrentWhoopy, navAs, sectionEls, sliderEl, tryOutEl;
     this.winEl = $(window);
     this.bannerEl = $('#banner');
     this.qrEl = $('#top-wrapper');
@@ -131,10 +131,31 @@ module.exports = Layout = (function() {
     }, {
       offset: '-80%'
     });
-    $('#slider').cycle({
-      timeout: 0,
+    sliderEl = $('#slider');
+    sliderEl.cycle({
+      timeout: 1000,
       prev: '#slider-prev',
       next: '#slider-next'
+    });
+    sliderEl.on('cycle-after', function(e, opt, slideOutEl, slideInEl) {
+      var imgSrc;
+      imgSrc = $(slideInEl).attr('src');
+      return $('#current-image img').attr('src', imgSrc);
+    });
+    sliderEl.cycle('pause');
+    $('#slider-play').on('click', function() {
+      var el;
+      el = $(this);
+      if (el.hasClass('playing')) {
+        sliderEl.cycle('pause');
+        el.removeClass('playing');
+        el.html('<i class="fa fa-play"></i>');
+      } else {
+        sliderEl.cycle('resume');
+        el.addClass('playing');
+        el.html('<i class="fa fa-pause"></i>');
+      }
+      return false;
     });
   }
 

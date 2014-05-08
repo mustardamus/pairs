@@ -51,10 +51,32 @@ module.exports = class Layout
       markCurrentWhoopy($(@)) if dir is 'up'
     , { offset: '-80%' }
 
-    $('#slider').cycle
-      timeout: 0
+    sliderEl = $('#slider')
+
+    sliderEl.cycle
+      timeout: 1000
       prev: '#slider-prev'
       next: '#slider-next'
+
+    sliderEl.on 'cycle-after', (e, opt, slideOutEl, slideInEl) ->
+      imgSrc = $(slideInEl).attr('src')
+      $('#current-image img').attr('src', imgSrc)
+
+    sliderEl.cycle('pause')
+
+    $('#slider-play').on 'click', ->
+      el = $(@)
+
+      if el.hasClass 'playing'
+        sliderEl.cycle('pause')
+        el.removeClass 'playing'
+        el.html '<i class="fa fa-play"></i>'
+      else
+        sliderEl.cycle('resume')
+        el.addClass 'playing'
+        el.html '<i class="fa fa-pause"></i>'
+
+      false
 
   downsizeBanner: ->
     @bannerEl.animate
