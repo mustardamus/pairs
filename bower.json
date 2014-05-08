@@ -27,6 +27,7 @@
     "js-base64": "~2.1.2",
     "jquery-waypoints": "~2.0.4",
     "csshake": "*",
-    "jquery.smooth-scroll": "~1.4.13"
+    "jquery.smooth-scroll": "~1.4.13",
+    "jquery-cycle2": "~2.1.5"
   }
 }

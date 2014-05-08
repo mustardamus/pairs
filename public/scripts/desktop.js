@@ -131,6 +131,11 @@ module.exports = Layout = (function() {
     }, {
       offset: '-80%'
     });
+    $('#slider').cycle({
+      timeout: 0,
+      prev: '#slider-prev',
+      next: '#slider-next'
+    });
   }
 
   Layout.prototype.downsizeBanner = function() {

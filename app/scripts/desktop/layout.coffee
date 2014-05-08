@@ -51,6 +51,11 @@ module.exports = class Layout
       markCurrentWhoopy($(@)) if dir is 'up'
     , { offset: '-80%' }
 
+    $('#slider').cycle
+      timeout: 0
+      prev: '#slider-prev'
+      next: '#slider-next'
+
   downsizeBanner: ->
     @bannerEl.animate
       height: 110
