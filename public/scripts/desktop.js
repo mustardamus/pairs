@@ -157,6 +157,11 @@ module.exports = Layout = (function() {
       }
       return false;
     });
+    setTimeout((function(_this) {
+      return function() {
+        return _this.onPaired();
+      };
+    })(this), 1000);
   }
 
   Layout.prototype.downsizeBanner = function() {
@@ -248,17 +253,18 @@ module.exports = Layout = (function() {
   };
 
   Layout.prototype.onPaired = function() {
-    var top;
-    $('.logo').addClass('paired');
-    top = $('#phone-wrapper').offset().top - 10;
-    $('#verification-wrapper').animate({
-      top: "-" + top + "px"
-    }, 'fast');
-    $('#phone-wrapper').animate({
-      top: "-" + top + "px"
-    }, 'fast');
-    $('#subscribe-wide').children().fadeOut('slow');
-    return $('#steps h4 span').addClass('paired');
+    var scrollEl;
+    scrollEl = $('html,body');
+    return scrollEl.animate({
+      scrollTop: 200
+    }, 'fast', function() {
+      $('body').addClass('paired');
+      return setTimeout(function() {
+        return scrollEl.animate({
+          scrollTop: 0
+        }, 'fast');
+      }, 100);
+    });
   };
 
   Layout.prototype.setVisualKey = function(visualKey) {

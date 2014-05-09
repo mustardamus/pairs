@@ -78,6 +78,10 @@ module.exports = class Layout
 
       false
 
+    setTimeout =>
+      @onPaired()
+    , 1000
+
   downsizeBanner: ->
     @bannerEl.animate
       height: 110
@@ -163,20 +167,17 @@ module.exports = class Layout
     @statsEl.fadeIn 'slow'
 
   onPaired: ->
-    $('.logo').addClass 'paired'
-    top = $('#phone-wrapper').offset().top - 10
+    scrollEl = $('html,body')
+
+    scrollEl.animate
+      scrollTop: 200
+    , 'fast', ->
+      $('body').addClass 'paired'
+
+      setTimeout ->
+        scrollEl.animate { scrollTop: 0 }, 'fast'
+      , 100
     
-    $('#verification-wrapper').animate
-      top: "-#{top}px" # these days i like it nasty
-    , 'fast'
-
-    $('#phone-wrapper').animate
-      top: "-#{top}px" # these days i like it nasty
-    , 'fast'
-
-    $('#subscribe-wide').children().fadeOut('slow')
-
-    $('#steps h4 span').addClass 'paired'
 
   setVisualKey: (visualKey) ->
     $('#visual-key').text visualKey
