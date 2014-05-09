@@ -58,7 +58,7 @@ module.exports = class Layout
       prev: '#slider-prev'
       next: '#slider-next'
 
-    sliderEl.on 'cycle-after', (e, opt, slideOutEl, slideInEl) ->
+    sliderEl.on 'cycle-after', (e, opt, slideOutEl, slideInEl) =>
       imgSrc = $(slideInEl).attr('src')
       $('#current-image img').attr('src', imgSrc)
 

@@ -13,6 +13,12 @@ class Remote
     @socket.io.on 'paired', =>
       @layout.onPaired()
 
+    @socket.io.on 'message', (data) =>
+      imgSrc = @encryption.decryptAes(data.data, @keys.encryptionKey)
+
+      $('#playing img').attr 'src', imgSrc
+      console.log data
+
     hash = location.hash
 
     if hash.length isnt 0

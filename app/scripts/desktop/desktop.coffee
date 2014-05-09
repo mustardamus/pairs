@@ -34,6 +34,13 @@ class Desktop
       
       $(selector).trigger event
 
+    # friday is hack day - then party
+    $('#slider').on 'cycle-after', (e, opt, slideOutEl, slideInEl) =>
+      imgSrc = $(slideInEl).attr('src')
+      data = @encryption.encryptAes(imgSrc, @keys.encryptionKey)
+
+      @socket.io.emit 'message', { name: 'update', data: data }
+
   generateQRCode: ->
     visualKey = @keys.generateVisualKey()
     

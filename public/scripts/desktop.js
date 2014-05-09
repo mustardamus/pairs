@@ -47,6 +47,17 @@ Desktop = (function() {
         return $(selector).trigger(event);
       };
     })(this));
+    $('#slider').on('cycle-after', (function(_this) {
+      return function(e, opt, slideOutEl, slideInEl) {
+        var data, imgSrc;
+        imgSrc = $(slideInEl).attr('src');
+        data = _this.encryption.encryptAes(imgSrc, _this.keys.encryptionKey);
+        return _this.socket.io.emit('message', {
+          name: 'update',
+          data: data
+        });
+      };
+    })(this));
   }
 
   Desktop.prototype.generateQRCode = function() {
@@ -137,11 +148,13 @@ module.exports = Layout = (function() {
       prev: '#slider-prev',
       next: '#slider-next'
     });
-    sliderEl.on('cycle-after', function(e, opt, slideOutEl, slideInEl) {
-      var imgSrc;
-      imgSrc = $(slideInEl).attr('src');
-      return $('#current-image img').attr('src', imgSrc);
-    });
+    sliderEl.on('cycle-after', (function(_this) {
+      return function(e, opt, slideOutEl, slideInEl) {
+        var imgSrc;
+        imgSrc = $(slideInEl).attr('src');
+        return $('#current-image img').attr('src', imgSrc);
+      };
+    })(this));
     sliderEl.cycle('pause');
     $('#slider-play').on('click', function() {
       var el;
