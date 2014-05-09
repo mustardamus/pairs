@@ -157,11 +157,6 @@ module.exports = Layout = (function() {
       }
       return false;
     });
-    setTimeout((function(_this) {
-      return function() {
-        return _this.onPaired();
-      };
-    })(this), 1000);
   }
 
   Layout.prototype.downsizeBanner = function() {
@@ -290,7 +285,7 @@ module.exports = PQRCode = (function() {
       width: 300,
       height: 300
     });
-    this.rootUrl = 'http://192.168.0.13:9000';
+    this.rootUrl = 'http://192.168.0.10:9000';
     if (location.hostname === 'pairs.io') {
       this.rootUrl = 'http://pairs.io';
     }
@@ -402,7 +397,7 @@ module.exports = Keys = (function() {
 var Socket;
 
 module.exports = Socket = (function() {
-  Socket.prototype.socketUrl = 'http://192.168.0.13:12222';
+  Socket.prototype.socketUrl = 'http://192.168.0.10:12222';
 
   function Socket() {
     if (location.hostname === 'pairs.io') {

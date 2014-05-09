@@ -78,10 +78,6 @@ module.exports = class Layout
 
       false
 
-    setTimeout =>
-      @onPaired()
-    , 1000
-
   downsizeBanner: ->
     @bannerEl.animate
       height: 110
