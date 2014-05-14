@@ -41,10 +41,12 @@ Desktop = (function() {
     });
     this.socket.io.on('message', (function(_this) {
       return function(data) {
-        var event, selector;
-        selector = _this.encryption.decryptAes(data.selector, _this.keys.encryptionKey);
-        event = _this.encryption.decryptAes(data.event, _this.keys.encryptionKey);
-        return $(selector).trigger(event);
+        switch (data.name) {
+          case 'next':
+            return $('#slider').cycle('next');
+          case 'prev':
+            return $('#slider').cycle('prev');
+        }
       };
     })(this));
     $('#slider').on('cycle-after', (function(_this) {

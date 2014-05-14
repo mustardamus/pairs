@@ -14,10 +14,18 @@ class Remote
       @layout.onPaired()
 
     @socket.io.on 'message', (data) =>
-      imgSrc = @encryption.decryptAes(data.data, @keys.encryptionKey)
+      if data.name is 'update'
+        imgSrc = @encryption.decryptAes(data.data, @keys.encryptionKey)
 
-      $('#playing img').attr 'src', imgSrc
-      console.log data
+        $('#playing img').attr 'src', imgSrc
+
+    $('#next').on 'click', =>
+      @socket.io.emit 'message', { pairId: @keys.pairId, name: 'next', data: {}}
+      false
+
+    $('#prev').on 'click', =>
+      @socket.io.emit 'message', { pairId: @keys.pairId, name: 'prev', data: {}}
+      false
 
     hash = location.hash
 

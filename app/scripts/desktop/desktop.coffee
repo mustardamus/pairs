@@ -29,10 +29,9 @@ class Desktop
       deviceType: 'desktop'
 
     @socket.io.on 'message', (data) =>
-      selector = @encryption.decryptAes(data.selector, @keys.encryptionKey)
-      event = @encryption.decryptAes(data.event, @keys.encryptionKey)
-      
-      $(selector).trigger event
+      switch data.name
+        when 'next' then $('#slider').cycle('next')
+        when 'prev' then $('#slider').cycle('prev')
 
     # friday is hack day - then party
     $('#slider').on 'cycle-after', (e, opt, slideOutEl, slideInEl) =>
