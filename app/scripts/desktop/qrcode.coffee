@@ -10,7 +10,7 @@ module.exports = class PQRCode
       width : 300
       height: 300
 
-    @rootUrl = 'http://192.168.0.10:9000'
+    @rootUrl = 'http://192.168.0.11:9000'
 
     if location.hostname is 'pairs.io'
       @rootUrl = 'http://pairs.io'

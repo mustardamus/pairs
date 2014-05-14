@@ -39,7 +39,7 @@ class Desktop
       imgSrc = $(slideInEl).attr('src')
       data = @encryption.encryptAes(imgSrc, @keys.encryptionKey)
 
-      @socket.io.emit 'message', { name: 'update', data: data }
+      @socket.io.emit 'message', { pairId: @keys.pairId, name: 'update', data: data }
 
   generateQRCode: ->
     visualKey = @keys.generateVisualKey()

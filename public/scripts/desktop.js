@@ -53,6 +53,7 @@ Desktop = (function() {
         imgSrc = $(slideInEl).attr('src');
         data = _this.encryption.encryptAes(imgSrc, _this.keys.encryptionKey);
         return _this.socket.io.emit('message', {
+          pairId: _this.keys.pairId,
           name: 'update',
           data: data
         });
@@ -298,7 +299,7 @@ module.exports = PQRCode = (function() {
       width: 300,
       height: 300
     });
-    this.rootUrl = 'http://192.168.0.10:9000';
+    this.rootUrl = 'http://192.168.0.11:9000';
     if (location.hostname === 'pairs.io') {
       this.rootUrl = 'http://pairs.io';
     }
@@ -410,7 +411,7 @@ module.exports = Keys = (function() {
 var Socket;
 
 module.exports = Socket = (function() {
-  Socket.prototype.socketUrl = 'http://192.168.0.10:12222';
+  Socket.prototype.socketUrl = 'http://192.168.0.11:12222';
 
   function Socket() {
     if (location.hostname === 'pairs.io') {
