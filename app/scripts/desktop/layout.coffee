@@ -78,6 +78,10 @@ module.exports = class Layout
 
       false
 
+    @statsEl  = $('#stats')
+    @visitsEl = $('#stats-visits', @statsEl)
+    @pairsEl  = $('#stats-pairings', @statsEl)
+
   downsizeBanner: ->
     @bannerEl.animate
       height: 110
@@ -109,53 +113,6 @@ module.exports = class Layout
       @navigationEl.removeClass 'small'
 
     @qrEl.fadeIn 100
-
-  laterBoy: ->
-    $('#phone-wrapper').css 'margin-top', $(window).height()
-
-    overlayEl = $('#overlay')
-
-    $('#button-dim').click ->
-      spanEl = $(@).children('span')
-
-      if overlayEl.css('display') is 'none'
-        overlayEl.fadeIn 'slow'
-        spanEl.text 'On'
-        spanEl.addClass 'dim-on'
-        spanEl.removeClass 'dim-off'
-      else
-        overlayEl.fadeOut 'slow'
-        spanEl.text 'Off'
-        spanEl.addClass 'dim-off'
-        spanEl.removeClass 'dim-on'
-      false
-
-    $('#steps li').on 'click', ->
-      liEl = $(@)
-
-      $('#steps .open').removeClass 'open'
-      liEl.addClass 'open'
-
-    $('<img src="images/remotes_bg_min.png">').on 'load', ->
-      overlayEl.fadeOut 1200
-      $('body').css 'overflow', 'auto'
-      $('#loading').fadeOut 800
-
-    $('#haeh').on 'click', ->
-      $('#credits').fadeIn 'fast'
-      $(@).fadeOut 'fast'
-
-    $('#credits .close').on 'click', ->
-      $(@).parent().fadeOut 'fast'
-      $('#haeh').fadeIn 'fast'
-
-    $('#right-wrapper').css
-      height: $(window).height()
-      overflow: 'hidden'
-
-    @statsEl  = $('#stats')
-    @visitsEl = $('#stats-visits', @statsEl)
-    @pairsEl  = $('#stats-pairings', @statsEl)
 
   updateStats: (stats) ->
     @visitsEl.text stats.visits

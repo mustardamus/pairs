@@ -173,6 +173,9 @@ module.exports = Layout = (function() {
       }
       return false;
     });
+    this.statsEl = $('#stats');
+    this.visitsEl = $('#stats-visits', this.statsEl);
+    this.pairsEl = $('#stats-pairings', this.statsEl);
   }
 
   Layout.prototype.downsizeBanner = function() {
@@ -207,54 +210,6 @@ module.exports = Layout = (function() {
       };
     })(this));
     return this.qrEl.fadeIn(100);
-  };
-
-  Layout.prototype.laterBoy = function() {
-    var overlayEl;
-    $('#phone-wrapper').css('margin-top', $(window).height());
-    overlayEl = $('#overlay');
-    $('#button-dim').click(function() {
-      var spanEl;
-      spanEl = $(this).children('span');
-      if (overlayEl.css('display') === 'none') {
-        overlayEl.fadeIn('slow');
-        spanEl.text('On');
-        spanEl.addClass('dim-on');
-        spanEl.removeClass('dim-off');
-      } else {
-        overlayEl.fadeOut('slow');
-        spanEl.text('Off');
-        spanEl.addClass('dim-off');
-        spanEl.removeClass('dim-on');
-      }
-      return false;
-    });
-    $('#steps li').on('click', function() {
-      var liEl;
-      liEl = $(this);
-      $('#steps .open').removeClass('open');
-      return liEl.addClass('open');
-    });
-    $('<img src="images/remotes_bg_min.png">').on('load', function() {
-      overlayEl.fadeOut(1200);
-      $('body').css('overflow', 'auto');
-      return $('#loading').fadeOut(800);
-    });
-    $('#haeh').on('click', function() {
-      $('#credits').fadeIn('fast');
-      return $(this).fadeOut('fast');
-    });
-    $('#credits .close').on('click', function() {
-      $(this).parent().fadeOut('fast');
-      return $('#haeh').fadeIn('fast');
-    });
-    $('#right-wrapper').css({
-      height: $(window).height(),
-      overflow: 'hidden'
-    });
-    this.statsEl = $('#stats');
-    this.visitsEl = $('#stats-visits', this.statsEl);
-    return this.pairsEl = $('#stats-pairings', this.statsEl);
   };
 
   Layout.prototype.updateStats = function(stats) {
