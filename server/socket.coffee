@@ -71,7 +71,7 @@ class Server
     pairObj.lastSeen = Date.now()
 
     for device in pairObj.devices
-      if device.socket.id isnt socket.id or 1 is 1 # dont stream to self
+      if device.socket.id isnt socket.id # dont stream to self
         device.socket.emit msg, data
         console.log 'emit message', pairId, msg, data
       else
