@@ -189,6 +189,11 @@ module.exports = Layout = (function() {
     this.statsEl = $('#stats');
     this.visitsEl = $('#stats-visits', this.statsEl);
     this.pairsEl = $('#stats-pairings', this.statsEl);
+    $('#reset a').on('click', function() {
+      localStorage.clear();
+      location.href = '/';
+      return false;
+    });
   }
 
   Layout.prototype.downsizeBanner = function() {

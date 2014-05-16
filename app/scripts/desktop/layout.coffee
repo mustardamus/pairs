@@ -89,6 +89,11 @@ module.exports = class Layout
     @visitsEl = $('#stats-visits', @statsEl)
     @pairsEl  = $('#stats-pairings', @statsEl)
 
+    $('#reset a').on 'click', ->
+      localStorage.clear()
+      location.href = '/'
+      false
+
   downsizeBanner: ->
     @bannerEl.animate
       height: 110
