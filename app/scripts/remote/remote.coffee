@@ -19,6 +19,16 @@ class Remote
 
         $('#playing img').attr 'src', imgSrc
 
+      if data.name is 'play'
+        el = $('#play')
+
+        if el.hasClass 'playing'
+          el.removeClass 'playing'
+          el.html '<i class="fa fa-play"></i>'
+        else
+          el.addClass 'playing'
+          el.html '<i class="fa fa-pause"></i>'
+
     $('#next').on 'click', =>
       @socket.io.emit 'message', { pairId: @keys.pairId, name: 'next', data: {}}
       false

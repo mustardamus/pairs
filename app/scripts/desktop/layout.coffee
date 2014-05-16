@@ -1,5 +1,8 @@
 module.exports = class Layout
-  constructor: ->
+  constructor: (socket, keys) ->
+    @socket = socket
+    @keys = keys
+
     @winEl = $(window)
     @bannerEl = $('#banner')
     @qrEl = $('#top-wrapper')
@@ -64,6 +67,8 @@ module.exports = class Layout
 
     sliderEl.cycle('pause')
 
+    self = @
+
     $('#slider-play').on 'click', ->
       el = $(@)
 
@@ -71,10 +76,12 @@ module.exports = class Layout
         sliderEl.cycle('pause')
         el.removeClass 'playing'
         el.html '<i class="fa fa-play"></i>'
+        self.socket.io.emit 'message', { pairId: self.keys.pairId, name: 'pause', data: {}}
       else
         sliderEl.cycle('resume')
         el.addClass 'playing'
         el.html '<i class="fa fa-pause"></i>'
+        self.socket.io.emit 'message', { pairId: self.keys.pairId, name: 'play', data: {}}
 
       false
 

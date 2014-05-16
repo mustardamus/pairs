@@ -16,8 +16,8 @@ Desktop = (function() {
     this.socket = new Socket;
     this.encryption = new Encryption;
     this.qrCode = new PQRCode;
-    this.layout = new Layout;
     this.keys = new Keys;
+    this.layout = new Layout(this.socket, this.keys);
     $('#visual-key-recreate').on('click', (function(_this) {
       return function() {
         _this.generateQRCode();
@@ -83,8 +83,10 @@ jQuery(function() {
 var Layout;
 
 module.exports = Layout = (function() {
-  function Layout() {
-    var markCurrentWhoopy, navAs, sectionEls, sliderEl, tryOutEl;
+  function Layout(socket, keys) {
+    var markCurrentWhoopy, navAs, sectionEls, self, sliderEl, tryOutEl;
+    this.socket = socket;
+    this.keys = keys;
     this.winEl = $(window);
     this.bannerEl = $('#banner');
     this.qrEl = $('#top-wrapper');
@@ -159,6 +161,7 @@ module.exports = Layout = (function() {
       };
     })(this));
     sliderEl.cycle('pause');
+    self = this;
     $('#slider-play').on('click', function() {
       var el;
       el = $(this);
@@ -166,10 +169,20 @@ module.exports = Layout = (function() {
         sliderEl.cycle('pause');
         el.removeClass('playing');
         el.html('<i class="fa fa-play"></i>');
+        self.socket.io.emit('message', {
+          pairId: self.keys.pairId,
+          name: 'pause',
+          data: {}
+        });
       } else {
         sliderEl.cycle('resume');
         el.addClass('playing');
         el.html('<i class="fa fa-pause"></i>');
+        self.socket.io.emit('message', {
+          pairId: self.keys.pairId,
+          name: 'play',
+          data: {}
+        });
       }
       return false;
     });

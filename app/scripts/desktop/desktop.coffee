@@ -9,8 +9,8 @@ class Desktop
     @socket     = new Socket
     @encryption = new Encryption
     @qrCode     = new PQRCode
-    @layout     = new Layout
     @keys       = new Keys
+    @layout     = new Layout(@socket, @keys)
 
     $('#visual-key-recreate').on 'click', =>
       @generateQRCode()
