@@ -18,6 +18,7 @@ class Remote
         imgSrc = @encryption.decryptAes(data.data, @keys.encryptionKey)
 
         $('#playing img').attr 'src', imgSrc
+        $('html,body').animate({ scrollLeft: 250 }, 100)
 
       if data.name is 'play'
         el = $('#play')
