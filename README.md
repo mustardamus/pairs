@@ -1,44 +1,48 @@
-remotes picture: https://secure.flickr.com/photos/79818573@N04/10730490594/sizes/k/
-phone picture: http://dribbble.com/shots/1193973-Flat-Nexus-4-Phone
+# Pairs.io - A web remote control
 
-Enable fallback: https://stackoverflow.com/questions/7071263/socket-io-v0-7-where-to-put-flashsockets-swf-file
+## Introduction
 
-css spinners: http://css-spinners.com/#/spinner/gauge/
+## Installation
 
+First install all the third party tools and libraries via:
 
-## Wie könnte eine Fernbedienung programmiert werden
+    npm install
+    bower install
+    npm install coffee-script -g
 
-Alles auf eine ebene oder devices teilen?!
+Next we need to initialize the flat files for storing the numbers of visits and
+pairings:
 
-    Pairs 'demo', (desktop, remote) ->
-      desktop:
-        routes:
-          'dim': 'onDim'
+    mkdir statistics
+    echo 1 > statistics/visits.txt
+    echo 1 > statistics/pairings.txt
 
-        events:
-          'click #btn-dim': 'onBtnClick'
+## Run local environment
 
-        initialize: ->
-          @dimEl = overlay
+Since we are using multiple devices (desktop and mobile(s)) to test the whole
+thing, we need to specify the IP address for the local network. First find out
+your IP in your network, if you are on a Unix:
 
-        onDim: (data) ->
-          @dimEl.fadeTo data.fade
+    ifconfig
 
-        onBtnClick: (e) ->
-          remote.emit 'button:clicked'
+Then update the hardcoded IP address in the following files:
 
-      remote:
-        routes:
-          'button:clicked': 'onBtnClicked'
+- `./app/index.html`
+- `./app/remote.html`
+- `./app/scripts/socket.coffee`
+- `./app/scripts/desktop/qrcode.coffee`
 
-        events:
-          'click #btn-dim-remote': 'onBtnClick'
+Sweet. Now let's start the backend socket server:
 
-        initialize: ->
-          @btnEl = $('#btn-dim-remote')
+    coffee server/socket.coffee
 
-        onBtnClicked: ->
-          @btnEl.toggleClass 'on'
+And the frontend development server:
 
-        onBtnClick: ->
-          desktop.emit 'dim', { fade: 0.8 }
+    gulp
+
+If everything is working fine, visit `http://<local-ip-address>:9000`.
+
+## Resources
+- remotes picture: https://secure.flickr.com/photos/79818573@N04/10730490594/sizes/k/
+- phone picture: http://dribbble.com/shots/1193973-Flat-Nexus-4-Phone
+- css spinners: http://css-spinners.com/#/spinner/gauge/

@@ -1,5 +1,5 @@
 module.exports = class Socket
-  socketUrl: 'http://192.168.0.11:12222'
+  socketUrl: '192.168.2.105:12222'
 
   constructor: ->
     if location.hostname is 'pairs.io'
