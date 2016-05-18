@@ -6,14 +6,14 @@ module.exports = class PQRCode
 
     @qrEl   = $('#qr-code')
     @qrCode = new QRCode @qrEl.get(0),
-      text  : 'pairs.io'
+      text  : 'pairs.akrasia.me'
       width : 300
       height: 300
 
     @rootUrl = 'http://192.168.2.105:9000'
 
-    if location.hostname is 'pairs.io'
-      @rootUrl = 'http://pairs.io'
+    if location.hostname is 'pairs.akrasia.me'
+      @rootUrl = 'http://pairs.akrasia.me'
 
   generateCode: (pairId, encryptionKey, visualKey) ->
     json      = JSON.stringify({ pId: pairId, eKey: encryptionKey })
